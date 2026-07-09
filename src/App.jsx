@@ -4,6 +4,8 @@ import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firesto
 import { auth, db } from "./firebase/config";
 import { registerUser, loginUser, logoutUser, fetchProfile } from "./firebase/authHelpers";
 import { pullAllFromCloud, pushKey, setSyncUid } from "./firebase/sync";
+import { useSynced } from "./firebase/useSynced";
+import { UidContext } from "./firebase/AuthContext";
 
 // ─── STORAGE ────────────────────────────────────────────────────────
 const ls = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } };
@@ -540,7 +542,7 @@ function AdminUsers({ toast }) {
 
 // ── Admin Classes ────────────────────────────────────────────────────
 function AdminClasses({ toast }) {
-  const [classes, setClasses] = useState(()=>ls("nv-classes",DEFAULT_CLASSES));
+  const [classes, setClasses] = useSynced("nv-classes", DEFAULT_CLASSES);
   const [edit, setEdit] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [pasteMode, setPasteMode] = useState(false);
@@ -660,7 +662,7 @@ function AdminClasses({ toast }) {
 
 // ── Admin Drugs ──────────────────────────────────────────────────────
 function AdminDrugs({ toast }) {
-  const [drugs, setDrugs] = useState(()=>ls("nv-drugs",DEFAULT_DRUGS));
+  const [drugs, setDrugs] = useSynced("nv-drugs", DEFAULT_DRUGS);
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState(null);
   const [pasteMode, setPasteMode] = useState(false);
@@ -760,7 +762,7 @@ function AdminDrugs({ toast }) {
 
 // ── Admin Labs ───────────────────────────────────────────────────────
 function AdminLabs({ toast }) {
-  const [labs, setLabs] = useState(()=>ls("nv-labs",DEFAULT_LABS));
+  const [labs, setLabs] = useSynced("nv-labs", DEFAULT_LABS);
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState(null);
   const [pasteMode, setPasteMode] = useState(false);
@@ -858,7 +860,7 @@ function AdminLabs({ toast }) {
 
 // ── Admin Past Questions ─────────────────────────────────────────────
 function AdminPQ({ toast }) {
-  const [banks, setBanks] = useState(()=>ls("nv-pq",DEFAULT_PQ));
+  const [banks, setBanks] = useSynced("nv-pq", DEFAULT_PQ);
   const [selBank, setSelBank] = useState(null);
   const [showBankModal, setShowBankModal] = useState(false);
   const [showQModal, setShowQModal] = useState(false);
@@ -1031,7 +1033,7 @@ function AdminPQ({ toast }) {
 
 // ── Admin Flashcards ─────────────────────────────────────────────────
 function AdminFlashcards({ toast }) {
-  const [decks, setDecks] = useState(()=>ls("nv-decks",DEFAULT_DECKS));
+  const [decks, setDecks] = useSynced("nv-decks", DEFAULT_DECKS);
   const [selDeck, setSelDeck] = useState(null);
   const [showDeckModal, setShowDeckModal] = useState(false);
   const [showCardModal, setShowCardModal] = useState(false);
@@ -1179,7 +1181,7 @@ function AdminFlashcards({ toast }) {
 
 // ── Admin Dictionary ─────────────────────────────────────────────────
 function AdminDictionary({ toast }) {
-  const [dict, setDict] = useState(()=>ls("nv-dict",DEFAULT_DICT));
+  const [dict, setDict] = useSynced("nv-dict", DEFAULT_DICT);
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState(null);
   const [pasteMode, setPasteMode] = useState(false);
@@ -1276,7 +1278,7 @@ function AdminDictionary({ toast }) {
 
 // ── Admin Skills ─────────────────────────────────────────────────────
 function AdminSkills({ toast }) {
-  const [skills, setSkills] = useState(()=>ls("nv-skillsdb",DEFAULT_SKILLS));
+  const [skills, setSkills] = useSynced("nv-skillsdb", DEFAULT_SKILLS);
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState(null);
   const [pasteMode, setPasteMode] = useState(false);
@@ -1353,7 +1355,7 @@ function AdminSkills({ toast }) {
 
 // ── Admin Announcements ──────────────────────────────────────────────
 function AdminAnnouncements({ toast }) {
-  const [items, setItems] = useState(()=>ls("nv-announcements",DEFAULT_ANNOUNCEMENTS));
+  const [items, setItems] = useSynced("nv-announcements", DEFAULT_ANNOUNCEMENTS);
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState(null);
   const [form, setForm] = useState({title:"",body:"",pinned:false});
@@ -1416,7 +1418,7 @@ function AdminAnnouncements({ toast }) {
 
 // ── Admin Handouts ───────────────────────────────────────────────────
 function AdminHandouts({ toast }) {
-  const [handouts, setHandouts] = useState(()=>ls("nv-handouts",[]));
+  const [handouts, setHandouts] = useSynced("nv-handouts", []);
   const classes = ls("nv-classes", DEFAULT_CLASSES);
 
   const del = (id) => { const u=handouts.filter(h=>h.id!==id); setHandouts(u); lsSet("nv-handouts",u); toast("Deleted","success"); };
@@ -1508,7 +1510,7 @@ function Dashboard({ user, onNavigate }) {
 
 function Handouts({ selectedClass, toast }) {
   const classes = ls("nv-classes", DEFAULT_CLASSES);
-  const [handouts, setHandouts] = useState(()=>ls("nv-handouts",[]));
+  const [handouts, setHandouts] = useSynced("nv-handouts", []);
   const [showAdd, setShowAdd] = useState(false);
   const [title, setTitle] = useState(""); const [note, setNote] = useState("");
   const [selClass, setSelClass] = useState(selectedClass?.id||""); const [selCourse, setSelCourse] = useState("");
@@ -1583,7 +1585,7 @@ function Handouts({ selectedClass, toast }) {
 }
 
 function Results({ toast }) {
-  const [results, setResults] = useState(()=>ls("nv-results",[]));
+  const [results, setResults] = useSynced("nv-results", []);
   const [showAdd, setShowAdd] = useState(false);
   const [form, setForm] = useState({subject:"",score:"",total:"",type:"",date:""});
   const save=()=>{if(!form.subject||!form.score)return toast("Fill required fields","error");const item={...form,id:Date.now(),pct:Math.round((+form.score/+(form.total||100))*100)};const u=[...results,item];setResults(u);lsSet("nv-results",u);setForm({subject:"",score:"",total:"",type:"",date:""});setShowAdd(false);toast("Result saved!","success");};
@@ -1606,7 +1608,7 @@ function Results({ toast }) {
 }
 
 function PastQuestionsView({ toast }) {
-  const [banks] = useState(()=>ls("nv-pq",DEFAULT_PQ));
+  const [banks] = useSynced("nv-pq", DEFAULT_PQ);
   const [sel, setSel] = useState(null); const [quizMode, setQuizMode] = useState(false);
   const [qIdx, setQIdx] = useState(0); const [answered, setAnswered] = useState(null);
   const [score, setScore] = useState(0); const [done, setDone] = useState(false);
@@ -1622,43 +1624,43 @@ function PastQuestionsView({ toast }) {
 }
 
 function FlashcardsView() {
-  const [decks] = useState(()=>ls("nv-decks",DEFAULT_DECKS));
+  const [decks] = useSynced("nv-decks", DEFAULT_DECKS);
   const [selDeck, setSelDeck] = useState(null); const [cardIdx, setCardIdx] = useState(0); const [flipped, setFlipped] = useState(false);
   if(selDeck){const deck=decks.find(d=>d.id===selDeck);const card=deck.cards[cardIdx];return<div><div style={{display:"flex",alignItems:"center",gap:10,marginBottom:18}}><button className="btn btn-sm" onClick={()=>setSelDeck(null)}>← Back</button><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:16}}>{deck.name}</div><div style={{marginLeft:"auto",fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--text3)"}}>{cardIdx+1}/{deck.cards.length}</div></div><div className="progress-wrap" style={{marginBottom:18}}><div className="progress-fill" style={{width:`${((cardIdx+1)/deck.cards.length)*100}%`,background:"var(--accent)"}} /></div><div className="flashcard" onClick={()=>setFlipped(f=>!f)}><div className={`flashcard-inner${flipped?" flipped":""}`}><div className="flashcard-front"><div className="fc-lbl">QUESTION — tap to flip</div><div className="fc-text">{card.front}</div></div><div className="flashcard-back"><div className="fc-lbl">ANSWER</div><div className="fc-text">{card.back}</div></div></div></div><div style={{display:"flex",gap:10,marginTop:18,justifyContent:"center"}}><button className="btn" disabled={cardIdx===0} onClick={()=>{setCardIdx(i=>i-1);setFlipped(false);}}>← Prev</button><button className="btn btn-accent" onClick={()=>setFlipped(f=>!f)}>Flip 🔄</button><button className="btn" disabled={cardIdx>=deck.cards.length-1} onClick={()=>{setCardIdx(i=>i+1);setFlipped(false);}}>Next →</button></div></div>;}
   return<div><div className="sec-title">🃏 Flashcards</div><div className="sec-sub">Study with interactive cards</div><div className="grid2">{decks.map((d,i)=><div key={d.id} className="card" style={{cursor:"pointer",animation:`fadeUp .4s ease ${i*.08}s both`}} onClick={()=>{setSelDeck(d.id);setCardIdx(0);setFlipped(false);}}><div style={{fontSize:32,marginBottom:8}}>🃏</div><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:16,marginBottom:4}}>{d.name}</div><div style={{fontSize:12,color:"var(--text3)"}}>{d.cards.length} cards</div></div>)}</div></div>;
 }
 
 function DrugGuideView() {
-  const [drugs] = useState(()=>ls("nv-drugs",DEFAULT_DRUGS));
+  const [drugs] = useSynced("nv-drugs", DEFAULT_DRUGS);
   const [search, setSearch] = useState(""); const [sel, setSel] = useState(null);
   const filtered = drugs.filter(d=>d.name.toLowerCase().includes(search.toLowerCase())||d.class.toLowerCase().includes(search.toLowerCase()));
   return<div><div className="sec-title">💊 Drug Guide</div><div className="sec-sub">Quick reference for medications</div><div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search drugs..." value={search} onChange={e=>setSearch(e.target.value)} /></div><div className="grid2">{filtered.map((d,i)=><div key={d.id} className="card" style={{cursor:"pointer",animation:`fadeUp .3s ease ${i*.05}s both`}} onClick={()=>setSel(d)}><div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:15}}>{d.name}</div><span className="tag tag-accent">{d.class?.split("/")[0]}</span></div><div style={{fontSize:12,color:"var(--text3)"}}><b style={{color:"var(--text2)"}}>Dose:</b> {d.dose}</div><div style={{fontSize:12,color:"var(--text3)",marginTop:4}}><b style={{color:"var(--text2)"}}>Uses:</b> {d.uses}</div></div>)}</div>{sel&&<div className="modal-overlay" onClick={()=>setSel(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-head"><div className="modal-title">{sel.name}</div><button className="modal-close" onClick={()=>setSel(null)}>✕</button></div><span className="tag tag-accent" style={{marginBottom:16,display:"inline-block"}}>{sel.class}</span>{[["💊 Dose",sel.dose],["📊 Max",sel.max],["✅ Uses",sel.uses],["⚠️ Contraindications",sel.contraindications],["⚡ Side Effects",sel.side_effects]].map(([l,v])=><div key={l} style={{marginBottom:14}}><div style={{fontFamily:"'DM Mono',monospace",fontSize:10,color:"var(--text3)",marginBottom:4,textTransform:"uppercase",letterSpacing:"1px"}}>{l}</div><div style={{fontSize:14,color:"var(--text2)"}}>{v||"—"}</div></div>)}</div></div>}</div>;
 }
 
 function LabReferenceView() {
-  const [labs] = useState(()=>ls("nv-labs",DEFAULT_LABS));
+  const [labs] = useSynced("nv-labs", DEFAULT_LABS);
   const [search, setSearch] = useState("");
   const filtered = labs.filter(l=>l.test.toLowerCase().includes(search.toLowerCase()));
   return<div><div className="sec-title">🧪 Lab Reference</div><div className="sec-sub">Normal laboratory values</div><div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search test name..." value={search} onChange={e=>setSearch(e.target.value)} /></div><div className="card" style={{padding:0,overflow:"hidden"}}><table className="tbl"><thead><tr><th>Test</th><th>Male</th><th>Female</th><th>Notes</th></tr></thead><tbody>{filtered.map(r=><tr key={r.id}><td style={{fontWeight:700}}>{r.test}</td><td style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--accent)"}}>{r.male}</td><td style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--accent2)"}}>{r.female}</td><td style={{fontSize:12,color:"var(--text3)"}}>{r.notes}</td></tr>)}</tbody></table></div></div>;
 }
 
 function DictionaryView() {
-  const [dict] = useState(()=>ls("nv-dict",DEFAULT_DICT));
+  const [dict] = useSynced("nv-dict", DEFAULT_DICT);
   const [search, setSearch] = useState("");
   const filtered = dict.filter(d=>d.term.toLowerCase().includes(search.toLowerCase())||d.def.toLowerCase().includes(search.toLowerCase()));
   return<div><div className="sec-title">📖 Medical Dictionary</div><div className="sec-sub">{dict.length} terms</div><div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search terms..." value={search} onChange={e=>setSearch(e.target.value)} /></div><div className="grid2">{filtered.map((t,i)=><div key={t.id} className="card2" style={{animation:`fadeUp .3s ease ${i*.03}s both`}}><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:15,color:"var(--accent)",marginBottom:5}}>{t.term}</div><div style={{fontSize:13,color:"var(--text2)",lineHeight:1.5}}>{t.def}</div></div>)}</div></div>;
 }
 
 function SkillsView() {
-  const [skillsDb] = useState(()=>ls("nv-skillsdb",DEFAULT_SKILLS));
-  const [done, setDone] = useState(()=>ls("nv-skills-done",{}));
+  const [skillsDb] = useSynced("nv-skillsdb", DEFAULT_SKILLS);
+  const [done, setDone] = useSynced("nv-skills-done", {});
   const toggle=(id)=>{const u={...done,[id]:!done[id]};setDone(u);lsSet("nv-skills-done",u);};
   const count = skillsDb.filter(s=>done[s.id]).length;
   return<div><div className="sec-title">✅ Skills Checklist</div><div className="sec-sub">Track clinical competencies</div><div className="card" style={{marginBottom:16}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}><span style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--text3)"}}>Progress</span><span style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--accent)"}}>{count}/{skillsDb.length}</span></div><div className="progress-wrap"><div className="progress-fill" style={{width:`${skillsDb.length>0?(count/skillsDb.length)*100:0}%`,background:"linear-gradient(90deg,var(--accent),var(--accent2))"}} /></div></div>{skillsDb.map(s=><div key={s.id} className="card2" style={{marginBottom:8,display:"flex",alignItems:"center",gap:12,cursor:"pointer",opacity:done[s.id]?.6:1}} onClick={()=>toggle(s.id)}><div style={{width:22,height:22,borderRadius:6,border:`2px solid ${done[s.id]?"var(--success)":"var(--border2)"}`,background:done[s.id]?"var(--success)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .2s"}}>{done[s.id]&&<span style={{fontSize:12,color:"white"}}>✓</span>}</div><div style={{fontSize:14,fontWeight:500,textDecoration:done[s.id]?"line-through":"none",flex:1}}>{s.name}</div>{done[s.id]&&<span className="tag tag-success">Done</span>}</div>)}</div>;
 }
 
 function GPACalc({ toast }) {
-  const [courses, setCourses] = useState(()=>ls("nv-gpa-courses",[]));
+  const [courses, setCourses] = useSynced("nv-gpa-courses", []);
   const [form, setForm] = useState({name:"",units:"",grade:""});
   const GRADES=[{l:"A",p:"5.0"},{l:"B",p:"4.0"},{l:"C",p:"3.0"},{l:"D",p:"2.0"},{l:"E",p:"1.0"},{l:"F",p:"0.0"}];
   const add=()=>{if(!form.name||!form.units||!form.grade)return toast("Fill all fields","error");const u=[...courses,{...form,id:Date.now(),units:+form.units,grade:+form.grade}];setCourses(u);lsSet("nv-gpa-courses",u);setForm({name:"",units:"",grade:""});};
@@ -1679,7 +1681,7 @@ function MedCalc() {
 }
 
 function Timetable({ toast }) {
-  const [tt, setTt] = useState(()=>ls("nv-timetable",[]));
+  const [tt, setTt] = useSynced("nv-timetable", []);
   const [showAdd, setShowAdd] = useState(false);
   const [form, setForm] = useState({day:"Monday",time:"",subject:"",venue:"",type:"Lecture"});
   const DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
@@ -1689,7 +1691,7 @@ function Timetable({ toast }) {
 }
 
 function StudyPlanner({ toast }) {
-  const [tasks, setTasks] = useState(()=>ls("nv-tasks",[]));
+  const [tasks, setTasks] = useSynced("nv-tasks", []);
   const [showAdd, setShowAdd] = useState(false);
   const [form, setForm] = useState({task:"",subject:"",due:"",priority:"Medium"});
   const save=()=>{if(!form.task)return toast("Enter task","error");const u=[...tasks,{...form,id:Date.now(),done:false}];setTasks(u);lsSet("nv-tasks",u);setForm({task:"",subject:"",due:"",priority:"Medium"});setShowAdd(false);toast("Task added!","success");};
@@ -1701,7 +1703,7 @@ function StudyPlanner({ toast }) {
 }
 
 function Messages({ user, toast }) {
-  const [msgs, setMsgs] = useState(()=>ls("nv-messages",[{id:1,from:"System",text:"Welcome to Nursing Academic Hub! 🎉",time:"Now",read:true}]));
+  const [msgs, setMsgs] = useSynced("nv-messages", [{id:1,from:"System",text:"Welcome to Nursing Academic Hub! 🎉",time:"Now",read:true}]);
   const [input, setInput] = useState("");
   const announcements = ls("nv-announcements",[]);
   const send=()=>{if(!input.trim())return;const msg={id:Date.now(),from:user,text:input,time:"Just now",read:true,mine:true};const u=[...msgs,msg];setMsgs(u);lsSet("nv-messages",u);setInput("");};
@@ -1720,6 +1722,7 @@ function StudyProgress() {
 // ════════════════════════════════════════════════════════════════════
 export default function App() {
   const [booted, setBooted] = useState(false);
+  const [uid, setUid] = useState(null);
   const [authBusy, setAuthBusy] = useState(false);
 
   const [page, setPage] = useState("auth");
@@ -1746,6 +1749,7 @@ export default function App() {
       try {
         if (fbUser) {
           setSyncUid(fbUser.uid);
+          setUid(fbUser.uid);
           await pullAllFromCloud(fbUser.uid, { lsSetRaw: lsSet, lsRaw: ls });
           const profile = await fetchProfile(fbUser.uid);
           if (profile) {
@@ -1755,6 +1759,7 @@ export default function App() {
           }
         } else {
           setSyncUid(null);
+          setUid(null);
           await pullAllFromCloud(null, { lsSetRaw: lsSet, lsRaw: ls });
           setCurrentUser(""); setIsAdmin(false); setPage("auth");
         }
@@ -1928,6 +1933,7 @@ export default function App() {
   );
 
   return (
+    <UidContext.Provider value={uid}>
     <>
       <style>{CSS}</style>
       <div className="app-shell">
@@ -1997,5 +2003,6 @@ export default function App() {
       </div>
       <Toasts list={toasts} />
     </>
+    </UidContext.Provider>
   );
 }
