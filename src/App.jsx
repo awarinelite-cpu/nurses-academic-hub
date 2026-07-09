@@ -89,24 +89,27 @@ const initData = () => {
 
 // ─── STYLES ─────────────────────────────────────────────────────────
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@300;400;500;600&display=swap');
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --bg:#1a3a40;--bg2:#163238;--bg3:#122b30;--bg4:#0f2428;
-  --card:#1e4048;--card2:#244850;
-  --accent:#3E8E95;--accent2:#5aada0;--accent3:#BFD2C5;
+  --font-sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --font-mono:'SF Mono','Fira Code',Consolas,monospace;
+  --bg:#0f172a;--bg2:#1e293b;--bg3:#1a2437;--bg4:#0b1220;
+  --card:#1e293b;--card2:#243349;
+  --accent:#3b82f6;--accent2:#60a5fa;--accent3:#1e3a8a;
   --warn:#fb923c;--danger:#f87171;--success:#4ade80;--purple:#a78bfa;
   --border:rgba(255,255,255,0.09);--border2:rgba(255,255,255,0.18);
-  --text:#e8f4f5;--text2:#a8c5c8;--text3:#5a8a8e;
-  --radius:14px;--radius2:10px;
+  --text:#e2e8f0;--text2:#94a3b8;--text3:#64748b;
+  --radius:12px;--radius2:8px;
   --admin:#7c3aed;--admin2:#6d28d9;
 }
-body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
 body.light{
-  --bg:#eef5f6;--bg2:#e0ecee;--bg3:#d2e4e7;--bg4:#c2d8dc;
-  --card:#ddeef0;--card2:#cde4e7;
-  --border:rgba(0,80,90,0.12);--border2:rgba(0,80,90,0.24);
-  --text:#0f2d32;--text2:#2a6068;--text3:#6a9ea4;
+  --bg:#f8fafc;--bg2:#f1f5f9;--bg3:#e2e8f0;--bg4:#cbd5e1;
+  --card:#ffffff;--card2:#f8fafc;
+  --accent:#1d4ed8;--accent2:#3b82f6;--accent3:#93c5fd;
+  --warn:#d97706;--danger:#dc2626;--success:#059669;--purple:#7c3aed;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --text:#1e293b;--text2:#475569;--text3:#94a3b8;
 }
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px;}
@@ -116,41 +119,41 @@ body.light{
 @keyframes spin{to{transform:rotate(360deg);}}
 
 /* AUTH */
-.auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,rgba(62,142,149,.2),transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(90,173,160,.1),transparent 50%),var(--bg);padding:20px;}
+.auth-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 20%,rgba(59,130,246,.2),transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(96,165,250,.1),transparent 50%),var(--bg);padding:20px;}
 .auth-card{background:var(--bg3);border:1px solid var(--border2);border-radius:22px;padding:38px 34px;width:100%;max-width:420px;animation:fadeUp .5s ease;box-shadow:0 40px 80px rgba(0,0,0,.4);}
 .auth-logo{display:flex;align-items:center;gap:10px;margin-bottom:5px;}
 .auth-logo-icon{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:20px;}
-.auth-logo-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent);}
-.auth-sub{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);margin-bottom:26px;}
+.auth-logo-name{font-family:var(--font-sans);font-size:26px;font-weight:800;color:var(--accent);}
+.auth-sub{font-family:var(--font-mono);font-size:11px;color:var(--text3);margin-bottom:26px;}
 .auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:20px;}
-.auth-tab{padding:9px;text-align:center;border-radius:9px;border:1px solid var(--border);font-family:'DM Mono',monospace;font-size:12px;cursor:pointer;color:var(--text3);background:transparent;transition:all .2s;}
-.auth-tab.active{background:rgba(62,142,149,.15);border-color:var(--accent);color:var(--accent);}
-.admin-tab-hint{text-align:center;margin-bottom:14px;font-size:11px;font-family:'DM Mono',monospace;color:var(--admin);background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);border-radius:8px;padding:6px;}
-.lbl{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;display:block;}
-.inp{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:9px;padding:11px 14px;color:var(--text);font-size:14px;font-family:'Instrument Sans',sans-serif;outline:none;transition:border-color .2s;margin-bottom:13px;}
+.auth-tab{padding:9px;text-align:center;border-radius:9px;border:1px solid var(--border);font-family:var(--font-mono);font-size:12px;cursor:pointer;color:var(--text3);background:transparent;transition:all .2s;}
+.auth-tab.active{background:rgba(59,130,246,.15);border-color:var(--accent);color:var(--accent);}
+.admin-tab-hint{text-align:center;margin-bottom:14px;font-size:11px;font-family:var(--font-mono);color:var(--admin);background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);border-radius:8px;padding:6px;}
+.lbl{font-family:var(--font-mono);font-size:10px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px;display:block;}
+.inp{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:9px;padding:11px 14px;color:var(--text);font-size:14px;font-family:var(--font-sans);outline:none;transition:border-color .2s;margin-bottom:13px;}
 .inp:focus{border-color:var(--accent);}
 .inp-wrap{position:relative;margin-bottom:13px;}
 .inp-wrap .inp{margin-bottom:0;}
 .inp-eye{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);cursor:pointer;font-size:15px;}
-.btn-primary{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:white;cursor:pointer;transition:all .2s;margin-top:4px;}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(62,142,149,.3);}
+.btn-primary{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:10px;font-family:var(--font-sans);font-size:15px;font-weight:700;color:white;cursor:pointer;transition:all .2s;margin-top:4px;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(59,130,246,.3);}
 .btn-admin{background:linear-gradient(135deg,var(--admin),var(--admin2));}
 .btn-admin:hover{box-shadow:0 8px 24px rgba(124,58,237,.3);}
-.auth-switch{text-align:center;margin-top:12px;font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;}
+.auth-switch{text-align:center;margin-top:12px;font-size:12px;color:var(--text3);font-family:var(--font-mono);}
 .auth-switch span{color:var(--accent);cursor:pointer;text-decoration:underline;}
-.auth-notice{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:10px 14px;font-size:11px;color:#fbbf24;font-family:'DM Mono',monospace;margin-top:16px;line-height:1.6;display:flex;gap:8px;}
+.auth-notice{background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:10px 14px;font-size:11px;color:#fbbf24;font-family:var(--font-mono);margin-top:16px;line-height:1.6;display:flex;gap:8px;}
 
 /* SHELL */
 .app-shell{display:flex;height:100vh;overflow:hidden;}
 .sidebar{width:240px;min-width:240px;background:var(--bg3);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;padding:0 0 20px;z-index:10;transition:transform .3s;}
 .sidebar-head{padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;}
 .sidebar-logo-icon{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:17px;}
-.sidebar-logo-name{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;color:var(--accent);}
-.admin-badge-side{display:inline-flex;align-items:center;gap:4px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);border-radius:20px;padding:2px 8px;font-size:10px;font-family:'DM Mono',monospace;color:var(--purple);margin-left:auto;}
-.nav-sec{padding:12px 16px 3px;font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;}
+.sidebar-logo-name{font-family:var(--font-sans);font-size:19px;font-weight:800;color:var(--accent);}
+.admin-badge-side{display:inline-flex;align-items:center;gap:4px;background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);border-radius:20px;padding:2px 8px;font-size:10px;font-family:var(--font-mono);color:var(--purple);margin-left:auto;}
+.nav-sec{padding:12px 16px 3px;font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;}
 .nav-item{display:flex;align-items:center;gap:9px;padding:9px 16px;margin:1px 8px;border-radius:9px;cursor:pointer;font-size:13.5px;color:var(--text2);transition:all .15s;user-select:none;}
-.nav-item:hover{background:rgba(62,142,149,.1);color:var(--text);}
-.nav-item.active{background:rgba(62,142,149,.18);color:var(--accent);}
+.nav-item:hover{background:rgba(59,130,246,.1);color:var(--text);}
+.nav-item.active{background:rgba(59,130,246,.18);color:var(--accent);}
 .nav-item.admin-nav{color:var(--purple);}
 .nav-item.admin-nav:hover{background:rgba(124,58,237,.1);}
 .nav-item.admin-nav.active{background:rgba(124,58,237,.18);color:var(--purple);}
@@ -159,11 +162,11 @@ body.light{
 .main-area{flex:1;display:flex;flex-direction:column;overflow:hidden;}
 .topbar{padding:13px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--bg3);flex-shrink:0;gap:10px;}
 .topbar-left{display:flex;align-items:center;gap:10px;}
-.topbar-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;}
+.topbar-title{font-family:var(--font-sans);font-size:16px;font-weight:700;}
 .topbar-right{display:flex;align-items:center;gap:8px;}
-.theme-btn{background:rgba(62,142,149,.1);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;font-family:'DM Mono',monospace;color:var(--text2);cursor:pointer;transition:all .2s;}
+.theme-btn{background:rgba(59,130,246,.1);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;font-family:var(--font-mono);color:var(--text2);cursor:pointer;transition:all .2s;}
 .theme-btn:hover{border-color:var(--accent);color:var(--accent);}
-.icon-btn{width:34px;height:34px;border-radius:50%;background:rgba(62,142,149,.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .2s;}
+.icon-btn{width:34px;height:34px;border-radius:50%;background:rgba(59,130,246,.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:15px;transition:all .2s;}
 .icon-btn:hover{border-color:var(--accent);}
 .page-content{flex:1;overflow-y:auto;padding:22px 24px;}
 .hamburger{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;}
@@ -177,25 +180,25 @@ body.light{
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
 .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;}
 .stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;animation:fadeUp .4s ease both;}
-.stat-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
-.stat-val{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent);}
+.stat-lbl{font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;}
+.stat-val{font-family:var(--font-sans);font-size:28px;font-weight:800;color:var(--accent);}
 .stat-sub{font-size:11px;color:var(--text3);margin-top:3px;}
-.sec-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:4px;}
-.sec-sub{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:16px;}
+.sec-title{font-family:var(--font-sans);font-size:18px;font-weight:700;margin-bottom:4px;}
+.sec-sub{font-size:12px;color:var(--text3);font-family:var(--font-mono);margin-bottom:16px;}
 .search-wrap{position:relative;margin-bottom:18px;}
-.search-wrap input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px 10px 36px;color:var(--text);font-size:14px;font-family:'Instrument Sans',sans-serif;outline:none;transition:border-color .2s;}
+.search-wrap input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px 10px 36px;color:var(--text);font-size:14px;font-family:var(--font-sans);outline:none;transition:border-color .2s;}
 .search-wrap input:focus{border-color:var(--accent);}
 .search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px;}
 .class-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;cursor:pointer;transition:all .2s;animation:fadeUp .4s ease both;position:relative;overflow:hidden;}
 .class-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--cc);}
 .class-card:hover{border-color:var(--cc);transform:translateY(-2px);}
-.class-tag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10px;font-family:'DM Mono',monospace;font-weight:600;margin-bottom:8px;color:var(--cc);background:rgba(62,142,149,.1);}
-.class-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:4px;}
+.class-tag{display:inline-block;padding:2px 8px;border-radius:5px;font-size:10px;font-family:var(--font-mono);font-weight:600;margin-bottom:8px;color:var(--cc);background:rgba(59,130,246,.1);}
+.class-name{font-family:var(--font-sans);font-size:16px;font-weight:700;margin-bottom:4px;}
 .class-desc{font-size:12px;color:var(--text3);margin-bottom:10px;line-height:1.5;}
-.class-meta{display:flex;gap:14px;font-size:11px;color:var(--text3);font-family:'DM Mono',monospace;}
+.class-meta{display:flex;gap:14px;font-size:11px;color:var(--text3);font-family:var(--font-mono);}
 
 /* BUTTONS */
-.btn{padding:8px 16px;border-radius:9px;border:1px solid var(--border);font-family:'Instrument Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;background:transparent;color:var(--text2);}
+.btn{padding:8px 16px;border-radius:9px;border:1px solid var(--border);font-family:var(--font-sans);font-size:13px;cursor:pointer;transition:all .2s;background:transparent;color:var(--text2);}
 .btn:hover{border-color:var(--border2);color:var(--text);}
 .btn:disabled{opacity:.4;cursor:not-allowed;}
 .btn-accent{background:var(--accent);border-color:var(--accent);color:white;font-weight:600;}
@@ -214,22 +217,22 @@ body.light{
 .modal.lg{max-width:720px;}
 .modal.xl{max-width:900px;}
 .modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
-.modal-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;}
+.modal-title{font-family:var(--font-sans);font-size:17px;font-weight:700;}
 .modal-close{background:none;border:none;color:var(--text3);font-size:20px;cursor:pointer;padding:2px 8px;border-radius:6px;transition:all .2s;}
 .modal-close:hover{background:rgba(255,255,255,.08);color:var(--text);}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 
 /* TABLES */
 .tbl{width:100%;border-collapse:collapse;}
-.tbl th{padding:10px 12px;text-align:left;font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);}
+.tbl th{padding:10px 12px;text-align:left;font-size:10px;font-family:var(--font-mono);color:var(--text3);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);}
 .tbl td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle;}
-.tbl tbody tr:hover{background:rgba(62,142,149,.05);}
+.tbl tbody tr:hover{background:rgba(59,130,246,.05);}
 .tbl tbody tr:last-child td{border-bottom:none;}
 .tbl-actions{display:flex;gap:6px;align-items:center;}
 
 /* TAGS */
-.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-family:'DM Mono',monospace;border:1px solid var(--border);}
-.tag-accent{background:rgba(62,142,149,.15);border-color:var(--accent);color:var(--accent);}
+.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-family:var(--font-mono);border:1px solid var(--border);}
+.tag-accent{background:rgba(59,130,246,.15);border-color:var(--accent);color:var(--accent);}
 .tag-success{background:rgba(74,222,128,.1);border-color:var(--success);color:var(--success);}
 .tag-warn{background:rgba(251,146,60,.1);border-color:var(--warn);color:var(--warn);}
 .tag-danger{background:rgba(248,113,113,.1);border-color:var(--danger);color:var(--danger);}
@@ -237,7 +240,7 @@ body.light{
 
 /* TOAST */
 .toast-wrap{position:fixed;bottom:22px;right:22px;display:flex;flex-direction:column;gap:8px;z-index:9999;}
-.toast{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:11px 15px;font-size:13px;font-family:'DM Mono',monospace;animation:slideIn .3s ease;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px;min-width:220px;}
+.toast{background:var(--bg2);border:1px solid var(--border2);border-radius:10px;padding:11px 15px;font-size:13px;font-family:var(--font-mono);animation:slideIn .3s ease;box-shadow:0 8px 24px rgba(0,0,0,.3);display:flex;align-items:center;gap:8px;min-width:220px;}
 .toast.success{border-left:3px solid var(--success);}
 .toast.error{border-left:3px solid var(--danger);}
 .toast.info{border-left:3px solid var(--accent);}
@@ -246,21 +249,21 @@ body.light{
 /* ADMIN SPECIFIC */
 .admin-header{background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(109,40,217,.08));border:1px solid rgba(124,58,237,.25);border-radius:14px;padding:20px 22px;margin-bottom:22px;display:flex;align-items:center;gap:14px;}
 .admin-header-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--admin),var(--admin2));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
-.admin-header-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;}
-.admin-header-sub{font-size:12px;color:var(--text3);font-family:'DM Mono',monospace;margin-top:2px;}
+.admin-header-title{font-family:var(--font-sans);font-size:20px;font-weight:800;}
+.admin-header-sub{font-size:12px;color:var(--text3);font-family:var(--font-mono);margin-top:2px;}
 .admin-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;}
-.admin-tab{padding:7px 14px;border-radius:8px;border:1px solid var(--border);font-family:'DM Mono',monospace;font-size:12px;cursor:pointer;color:var(--text3);background:transparent;transition:all .2s;}
+.admin-tab{padding:7px 14px;border-radius:8px;border:1px solid var(--border);font-family:var(--font-mono);font-size:12px;cursor:pointer;color:var(--text3);background:transparent;transition:all .2s;}
 .admin-tab:hover{border-color:rgba(124,58,237,.4);color:var(--purple);}
 .admin-tab.active{background:rgba(124,58,237,.18);border-color:var(--admin);color:var(--purple);}
-.paste-box{width:100%;background:var(--bg4);border:1px dashed var(--border2);border-radius:9px;padding:12px 14px;color:var(--text);font-size:13px;font-family:'DM Mono',monospace;outline:none;resize:vertical;min-height:90px;margin-bottom:10px;line-height:1.6;}
+.paste-box{width:100%;background:var(--bg4);border:1px dashed var(--border2);border-radius:9px;padding:12px 14px;color:var(--text);font-size:13px;font-family:var(--font-mono);outline:none;resize:vertical;min-height:90px;margin-bottom:10px;line-height:1.6;}
 .paste-box:focus{border-color:var(--accent);}
 .parse-preview{background:var(--bg4);border:1px solid var(--border);border-radius:9px;padding:12px;margin-bottom:12px;max-height:200px;overflow-y:auto;}
-.parse-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;font-family:'DM Mono',monospace;}
+.parse-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px;font-family:var(--font-mono);}
 .parse-item:last-child{border-bottom:none;}
 .parse-check{color:var(--success);font-size:14px;}
 .section-divider{border:none;border-top:1px solid var(--border);margin:18px 0;}
 .user-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg4);border-radius:10px;margin-bottom:8px;}
-.user-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:'Syne',sans-serif;color:white;flex-shrink:0;}
+.user-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:var(--font-sans);color:white;flex-shrink:0;}
 .progress-wrap{background:var(--bg4);border-radius:20px;height:6px;overflow:hidden;}
 .progress-fill{height:100%;border-radius:20px;transition:width .5s;}
 
@@ -269,9 +272,9 @@ body.light{
 .flashcard-inner{position:relative;width:100%;min-height:180px;transition:transform .6s;transform-style:preserve-3d;}
 .flashcard-inner.flipped{transform:rotateY(180deg);}
 .flashcard-front,.flashcard-back{position:absolute;width:100%;min-height:180px;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card2);border:1px solid var(--border);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;flex-direction:column;}
-.flashcard-back{transform:rotateY(180deg);background:linear-gradient(135deg,rgba(62,142,149,.15),rgba(90,173,160,.08));border-color:var(--accent);}
-.fc-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;}
-.fc-text{font-family:'Syne',sans-serif;font-size:17px;font-weight:600;line-height:1.4;}
+.flashcard-back{transform:rotateY(180deg);background:linear-gradient(135deg,rgba(59,130,246,.15),rgba(96,165,250,.08));border-color:var(--accent);}
+.fc-lbl{font-family:var(--font-mono);font-size:9px;color:var(--text3);margin-bottom:8px;text-transform:uppercase;letter-spacing:.08em;}
+.fc-text{font-family:var(--font-sans);font-size:17px;font-weight:600;line-height:1.4;}
 
 /* QUIZ */
 .quiz-opt{padding:11px 15px;border:1px solid var(--border);border-radius:10px;cursor:pointer;margin-bottom:7px;transition:all .2s;font-size:14px;}
@@ -286,7 +289,7 @@ body.light{
 .course-row{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg4);border-radius:10px;margin-bottom:8px;}
 
 /* TT */
-.tt-badge{display:inline-block;padding:3px 9px;border-radius:6px;font-size:11px;font-family:'DM Mono',monospace;font-weight:600;}
+.tt-badge{display:inline-block;padding:3px 9px;border-radius:6px;font-size:11px;font-family:var(--font-mono);font-weight:600;}
 
 /* RESPONSIVE */
 @media(max-width:900px){
@@ -426,7 +429,7 @@ function AdminOverview({ toast }) {
         ))}
       </div>
       <div className="card" style={{marginBottom:16}}>
-        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:14}}>💾 Backup & Restore</div>
+        <div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:14}}>💾 Backup & Restore</div>
         <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
           <button className="btn btn-accent" onClick={exportAll}>⬇️ Export Backup (JSON)</button>
           <label className="btn btn-warn" style={{cursor:"pointer"}}>
@@ -437,13 +440,13 @@ function AdminOverview({ toast }) {
         </div>
       </div>
       <div className="card">
-        <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:14}}>👥 Recent Users</div>
+        <div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:14}}>👥 Recent Users</div>
         {users.slice(-5).reverse().map(u=>(
           <div key={u.uid} className="user-row">
             <div className="user-av">{(u.username||"?")[0].toUpperCase()}</div>
             <div style={{flex:1}}>
               <div style={{fontWeight:600,fontSize:14}}>{u.username}</div>
-              <div style={{fontSize:11,color:"var(--text3)",fontFamily:"'DM Mono',monospace"}}>{u.class||"No class"} · Joined {u.joined}</div>
+              <div style={{fontSize:11,color:"var(--text3)",fontFamily:"var(--font-mono)"}}>{u.class||"No class"} · Joined {u.joined}</div>
             </div>
             <span className={`tag ${u.role==="admin"?"tag-purple":"tag-accent"}`}>{u.role||"student"}</span>
           </div>
@@ -507,7 +510,7 @@ function AdminUsers({ toast }) {
                 <td><div style={{display:"flex",alignItems:"center",gap:9}}><div className="user-av" style={{width:30,height:30,fontSize:13}}>{(u.username||"?")[0].toUpperCase()}</div><span style={{fontWeight:600}}>{u.username}</span></div></td>
                 <td><span className={`tag ${u.role==="admin"?"tag-purple":"tag-accent"}`}>{u.role||"student"}</span></td>
                 <td style={{fontSize:12,color:"var(--text3)"}}>{u.class||"—"}</td>
-                <td style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace"}}>{u.joined||"—"}</td>
+                <td style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)"}}>{u.joined||"—"}</td>
                 <td><div className="tbl-actions">
                   <button className="btn btn-sm" onClick={()=>{setEdit(u.uid);setForm({role:u.role||"student",class:u.class||""});}}>✏️ Edit</button>
                   <button className="btn btn-sm btn-danger" onClick={()=>del(u)}>🗑️ Del</button>
@@ -599,8 +602,8 @@ function AdminClasses({ toast }) {
 
       {pasteMode&&(
         <div className="card" style={{marginBottom:18}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:8}}>📋 Paste & Auto-Import Classes</div>
-          <div style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>LABEL | Description | Course1, Course2, Course3</b><br/>Or just paste class names, one per line.</div>
+          <div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:8}}>📋 Paste & Auto-Import Classes</div>
+          <div style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>LABEL | Description | Course1, Course2, Course3</b><br/>Or just paste class names, one per line.</div>
           <textarea className="paste-box" placeholder={"BNSc 5 | Bachelor of Nursing Science Year Five | Advanced Research, Clinical Leadership, Thesis\nND THREE | National Diploma Year Three | Paediatrics, Community Health\nHND THREE | Higher National Diploma Year Three | Health Policy, Nursing Management"} value={pasteText} onChange={e=>setPasteText(e.target.value)} />
           <div style={{display:"flex",gap:8,marginBottom:parsed.length?10:0}}>
             <button className="btn btn-accent" onClick={parsePaste}>🔍 Parse</button>
@@ -625,8 +628,8 @@ function AdminClasses({ toast }) {
           <div key={c.id} className="card" style={{borderLeft:`3px solid ${c.color}`,animation:`fadeUp .3s ease ${i*.04}s both`}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}>
               <div>
-                <span style={{display:"inline-block",background:`${c.color}20`,color:c.color,borderRadius:5,padding:"2px 8px",fontSize:10,fontFamily:"'DM Mono',monospace",marginBottom:6}}>{c.label}</span>
-                <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:15}}>{c.label}</div>
+                <span style={{display:"inline-block",background:`${c.color}20`,color:c.color,borderRadius:5,padding:"2px 8px",fontSize:10,fontFamily:"var(--font-mono)",marginBottom:6}}>{c.label}</span>
+                <div style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:15}}>{c.label}</div>
                 <div style={{fontSize:12,color:"var(--text3)",marginTop:2}}>{c.desc}</div>
               </div>
               <div style={{display:"flex",gap:5,flexShrink:0}}>
@@ -634,7 +637,7 @@ function AdminClasses({ toast }) {
                 <button className="btn btn-sm btn-danger" onClick={()=>del(c.id)}>🗑️</button>
               </div>
             </div>
-            <div style={{fontSize:11,color:"var(--text3)",fontFamily:"'DM Mono',monospace"}}>{c.courses.length} courses: {c.courses.slice(0,3).join(", ")}{c.courses.length>3?` +${c.courses.length-3} more`:""}</div>
+            <div style={{fontSize:11,color:"var(--text3)",fontFamily:"var(--font-mono)"}}>{c.courses.length} courses: {c.courses.slice(0,3).join(", ")}{c.courses.length>3?` +${c.courses.length-3} more`:""}</div>
           </div>
         ))}
       </div>
@@ -712,8 +715,8 @@ function AdminDrugs({ toast }) {
 
       {pasteMode&&(
         <div className="card" style={{marginBottom:18}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:6}}>📋 Paste Drugs</div>
-          <div style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>Name | Class | Dose | MaxDose | Uses | Contraindications | SideEffects</b></div>
+          <div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:6}}>📋 Paste Drugs</div>
+          <div style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>Name | Class | Dose | MaxDose | Uses | Contraindications | SideEffects</b></div>
           <textarea className="paste-box" placeholder={"Aspirin | NSAID/Antiplatelet | 75-325mg daily | 4g/day | Pain, antiplatelet | Peptic ulcer, asthma | GI bleeding, Reye's syndrome\nFurosemide | Loop Diuretic | 20-80mg daily | 600mg/day | Oedema, heart failure | Allergy, anuria | Hypokalaemia, ototoxicity"} value={pasteText} onChange={e=>setPasteText(e.target.value)} />
           <div style={{display:"flex",gap:8,marginBottom:parsed.length?10:0}}>
             <button className="btn btn-accent" onClick={parsePaste}>🔍 Parse</button>
@@ -808,8 +811,8 @@ function AdminLabs({ toast }) {
 
       {pasteMode&&(
         <div className="card" style={{marginBottom:18}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:6}}>📋 Paste Lab Values</div>
-          <div style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>Test Name | Male Range | Female Range | Notes</b></div>
+          <div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:6}}>📋 Paste Lab Values</div>
+          <div style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>Test Name | Male Range | Female Range | Notes</b></div>
           <textarea className="paste-box" placeholder={"Bilirubin (Total) | 0-17 μmol/L | 0-17 μmol/L | Elevated in jaundice\nAST | 10-40 U/L | 10-35 U/L | Liver enzyme"} value={pasteText} onChange={e=>setPasteText(e.target.value)} />
           <div style={{display:"flex",gap:8,marginBottom:parsed.length?10:0}}>
             <button className="btn btn-accent" onClick={parsePaste}>🔍 Parse</button>
@@ -827,8 +830,8 @@ function AdminLabs({ toast }) {
             {labs.map((l,i)=>(
               <tr key={l.id}>
                 <td style={{fontWeight:700}}>{l.test}</td>
-                <td style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--accent)"}}>{l.male}</td>
-                <td style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--accent2)"}}>{l.female}</td>
+                <td style={{fontFamily:"var(--font-mono)",fontSize:12,color:"var(--accent)"}}>{l.male}</td>
+                <td style={{fontFamily:"var(--font-mono)",fontSize:12,color:"var(--accent2)"}}>{l.female}</td>
                 <td style={{fontSize:12,color:"var(--text3)"}}>{l.notes}</td>
                 <td><div className="tbl-actions">
                   <button className="btn btn-sm" onClick={()=>{setEdit(i);setForm({...l});setShowModal(true);}}>✏️</button>
@@ -944,7 +947,7 @@ function AdminPQ({ toast }) {
           <div key={b.id} className={`card${selBank===b.id?" ":" "}`} style={{cursor:"pointer",border:selBank===b.id?"1px solid var(--purple)":"1px solid var(--border)",transition:"border .2s"}} onClick={()=>setSelBank(b.id)}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
               <div>
-                <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:15}}>{b.subject}</div>
+                <div style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:15}}>{b.subject}</div>
                 <div style={{fontSize:12,color:"var(--text3)",marginTop:3}}>{b.year} · {b.questions.length} questions</div>
               </div>
               <div style={{display:"flex",gap:5}}>
@@ -959,7 +962,7 @@ function AdminPQ({ toast }) {
       {currentBank&&(
         <div className="card">
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14,flexWrap:"wrap",gap:8}}>
-            <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700}}>{currentBank.subject} — Questions ({currentBank.questions.length})</div>
+            <div style={{fontFamily:"var(--font-sans)",fontWeight:700}}>{currentBank.subject} — Questions ({currentBank.questions.length})</div>
             <div style={{display:"flex",gap:8}}>
               <button className="btn btn-success btn-sm" onClick={()=>setPasteMode(p=>!p)}>📋 Paste</button>
               <button className="btn btn-purple btn-sm" onClick={()=>{setShowQModal(true);setEditQ(null);setQForm({q:"",options:["","","",""],ans:0});}}>+ Add Q</button>
@@ -968,7 +971,7 @@ function AdminPQ({ toast }) {
 
           {pasteMode&&(
             <div style={{marginBottom:16}}>
-              <div style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:8}}>Format per question (blank line between questions):<br/><b style={{color:"var(--accent)"}}>Q: Question text<br/>A: Option A<br/>B: Option B<br/>C: Option C<br/>D: Option D<br/>ANS: B</b></div>
+              <div style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)",marginBottom:8}}>Format per question (blank line between questions):<br/><b style={{color:"var(--accent)"}}>Q: Question text<br/>A: Option A<br/>B: Option B<br/>C: Option C<br/>D: Option D<br/>ANS: B</b></div>
               <textarea className="paste-box" placeholder={"Q: What is the normal adult temperature?\nA: 35.0°C\nB: 36.1–37.2°C\nC: 38.5°C\nD: 40.0°C\nANS: B\n\nQ: Which organ produces insulin?\nA: Liver\nB: Kidney\nC: Pancreas\nD: Spleen\nANS: C"} value={pasteText} onChange={e=>setPasteText(e.target.value)} rows={10} />
               <div style={{display:"flex",gap:8,marginBottom:parsed.length?10:0}}>
                 <button className="btn btn-accent" onClick={parsePaste}>🔍 Parse</button>
@@ -1099,7 +1102,7 @@ function AdminFlashcards({ toast }) {
           <div key={d.id} className="card" style={{cursor:"pointer",border:selDeck===d.id?"1px solid var(--purple)":"1px solid var(--border)"}} onClick={()=>setSelDeck(d.id)}>
             <div style={{display:"flex",justifyContent:"space-between"}}>
               <div>
-                <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:15}}>{d.name}</div>
+                <div style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:15}}>{d.name}</div>
                 <div style={{fontSize:12,color:"var(--text3)",marginTop:3}}>{d.cards.length} cards</div>
               </div>
               <div style={{display:"flex",gap:5}}>
@@ -1114,7 +1117,7 @@ function AdminFlashcards({ toast }) {
       {currentDeck&&(
         <div className="card">
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14,flexWrap:"wrap",gap:8}}>
-            <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700}}>{currentDeck.name} — Cards ({currentDeck.cards.length})</div>
+            <div style={{fontFamily:"var(--font-sans)",fontWeight:700}}>{currentDeck.name} — Cards ({currentDeck.cards.length})</div>
             <div style={{display:"flex",gap:8}}>
               <button className="btn btn-success btn-sm" onClick={()=>setPasteMode(p=>!p)}>📋 Paste</button>
               <button className="btn btn-purple btn-sm" onClick={()=>{setShowCardModal(true);setEditCard(null);setCardForm({front:"",back:""});}}>+ Add Card</button>
@@ -1123,7 +1126,7 @@ function AdminFlashcards({ toast }) {
 
           {pasteMode&&(
             <div style={{marginBottom:16}}>
-              <div style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>Front text | Back text</b> (one card per line)</div>
+              <div style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>Front text | Back text</b> (one card per line)</div>
               <textarea className="paste-box" placeholder={"Normal adult SpO2 | 95-100%\nNormal adult temperature | 36.1-37.2°C\nGlasgow Coma Scale max score | 15"} value={pasteText} onChange={e=>setPasteText(e.target.value)} />
               <div style={{display:"flex",gap:8,marginBottom:parsed.length?10:0}}>
                 <button className="btn btn-accent" onClick={parsePaste}>🔍 Parse</button>
@@ -1139,9 +1142,9 @@ function AdminFlashcards({ toast }) {
               <div key={c.id||ci} className="card2">
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",gap:8}}>
                   <div style={{flex:1}}>
-                    <div style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:3}}>FRONT</div>
+                    <div style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)",marginBottom:3}}>FRONT</div>
                     <div style={{fontWeight:600,fontSize:13,marginBottom:8}}>{c.front}</div>
-                    <div style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:3}}>BACK</div>
+                    <div style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)",marginBottom:3}}>BACK</div>
                     <div style={{fontSize:13,color:"var(--accent)"}}>{c.back}</div>
                   </div>
                   <div style={{display:"flex",gap:4,flexShrink:0}}>
@@ -1231,8 +1234,8 @@ function AdminDictionary({ toast }) {
 
       {pasteMode&&(
         <div className="card" style={{marginBottom:18}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:6}}>📋 Paste Dictionary Terms</div>
-          <div style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>Term | Definition</b> or <b style={{color:"var(--accent)"}}>Term: Definition</b> (one per line)</div>
+          <div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:6}}>📋 Paste Dictionary Terms</div>
+          <div style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>Term | Definition</b> or <b style={{color:"var(--accent)"}}>Term: Definition</b> (one per line)</div>
           <textarea className="paste-box" placeholder={"Haemoptysis | Coughing up blood from the respiratory tract\nTachypnoea: Abnormally rapid breathing rate above 20 breaths/min\nOliguria | Reduced urine output below 400mL/day in adults"} value={pasteText} onChange={e=>setPasteText(e.target.value)} />
           <div style={{display:"flex",gap:8,marginBottom:parsed.length?10:0}}>
             <button className="btn btn-accent" onClick={parsePaste}>🔍 Parse</button>
@@ -1250,7 +1253,7 @@ function AdminDictionary({ toast }) {
           <tbody>
             {filtered.map((d,i)=>(
               <tr key={d.id}>
-                <td style={{fontFamily:"'Syne',sans-serif",fontWeight:700,color:"var(--accent)",width:200}}>{d.term}</td>
+                <td style={{fontFamily:"var(--font-sans)",fontWeight:700,color:"var(--accent)",width:200}}>{d.term}</td>
                 <td style={{fontSize:13,color:"var(--text2)"}}>{d.def}</td>
                 <td style={{width:90}}><div className="tbl-actions">
                   <button className="btn btn-sm" onClick={()=>{setEdit(i);setForm({term:d.term,def:d.def});setShowModal(true);}}>✏️</button>
@@ -1319,8 +1322,8 @@ function AdminSkills({ toast }) {
 
       {pasteMode&&(
         <div className="card" style={{marginBottom:18}}>
-          <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:6}}>📋 Paste Skills</div>
-          <div style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:8}}>One skill per line. Numbers/bullets at the start are auto-removed.</div>
+          <div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:6}}>📋 Paste Skills</div>
+          <div style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)",marginBottom:8}}>One skill per line. Numbers/bullets at the start are auto-removed.</div>
           <textarea className="paste-box" placeholder={"1. Nasogastric tube insertion\n2. Tracheostomy care\n- Chest physiotherapy\nCardiovascular assessment\nPain assessment (PQRST)"} value={pasteText} onChange={e=>setPasteText(e.target.value)} />
           <div style={{display:"flex",gap:8,marginBottom:parsed.length?10:0}}>
             <button className="btn btn-accent" onClick={parsePaste}>🔍 Parse</button>
@@ -1333,7 +1336,7 @@ function AdminSkills({ toast }) {
 
       {skills.map((s,i)=>(
         <div key={s.id} className="card2" style={{marginBottom:8,display:"flex",alignItems:"center",gap:12}}>
-          <div style={{width:24,height:24,borderRadius:6,background:"rgba(62,142,149,.15)",border:"1px solid var(--accent)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:"var(--accent)",flexShrink:0}}>{i+1}</div>
+          <div style={{width:24,height:24,borderRadius:6,background:"rgba(59,130,246,.15)",border:"1px solid var(--accent)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,color:"var(--accent)",flexShrink:0}}>{i+1}</div>
           <div style={{flex:1,fontWeight:500,fontSize:14}}>{s.name}</div>
           <button className="btn btn-sm" onClick={()=>{setEdit(i);setForm({name:s.name});setShowModal(true);}}>✏️</button>
           <button className="btn btn-sm btn-danger" onClick={()=>del(s.id)}>🗑️</button>
@@ -1384,10 +1387,10 @@ function AdminAnnouncements({ toast }) {
             <div style={{flex:1}}>
               <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
                 {a.pinned&&<span className="tag tag-warn">📌 Pinned</span>}
-                <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:15}}>{a.title}</div>
+                <div style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:15}}>{a.title}</div>
               </div>
               <div style={{fontSize:13,color:"var(--text2)",lineHeight:1.6,marginBottom:8}}>{a.body}</div>
-              <div style={{fontSize:10,color:"var(--text3)",fontFamily:"'DM Mono',monospace"}}>{a.date}</div>
+              <div style={{fontSize:10,color:"var(--text3)",fontFamily:"var(--font-mono)"}}>{a.date}</div>
             </div>
             <div style={{display:"flex",gap:5,flexShrink:0}}>
               <button className="btn btn-sm" title="Toggle pin" onClick={()=>togglePin(a.id)}>{a.pinned?"📌":"📍"}</button>
@@ -1430,7 +1433,7 @@ function AdminHandouts({ toast }) {
         <div className="sec-title">📄 All Handouts ({handouts.length})</div>
         {handouts.length>0&&<button className="btn btn-danger btn-sm" onClick={clearAll}>🗑️ Clear All</button>}
       </div>
-      {handouts.length===0?<div style={{textAlign:"center",padding:"40px",color:"var(--text3)",fontFamily:"'DM Mono',monospace",fontSize:13}}>No handouts uploaded by users yet.</div>:(
+      {handouts.length===0?<div style={{textAlign:"center",padding:"40px",color:"var(--text3)",fontFamily:"var(--font-mono)",fontSize:13}}>No handouts uploaded by users yet.</div>:(
         <div className="card" style={{padding:0,overflow:"hidden"}}>
           <table className="tbl">
             <thead><tr><th>Title</th><th>Class</th><th>Course</th><th>Date</th><th>Action</th></tr></thead>
@@ -1442,7 +1445,7 @@ function AdminHandouts({ toast }) {
                     <td style={{fontWeight:600}}>{h.title}</td>
                     <td><span className="tag tag-accent">{c?.label||"General"}</span></td>
                     <td style={{fontSize:12,color:"var(--text3)"}}>{h.course||"—"}</td>
-                    <td style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace"}}>{h.date}</td>
+                    <td style={{fontSize:12,color:"var(--text3)",fontFamily:"var(--font-mono)"}}>{h.date}</td>
                     <td><button className="btn btn-sm btn-danger" onClick={()=>del(h.id)}>🗑️</button></td>
                   </tr>
                 );
@@ -1493,7 +1496,7 @@ function Dashboard({ user, onNavigate }) {
       <div className="grid2">
         {classes.map((c,i)=>(
           <div className="class-card" key={c.id} style={{"--cc":c.color,animationDelay:`${.08+i*.03}s`}} onClick={()=>onNavigate("handouts",c)}>
-            <span style={{float:"right",fontSize:10,color:"var(--text3)",fontFamily:"'DM Mono',monospace"}}>{c.courses.length} courses</span>
+            <span style={{float:"right",fontSize:10,color:"var(--text3)",fontFamily:"var(--font-mono)"}}>{c.courses.length} courses</span>
             <div className="class-tag">{c.label}</div>
             <div className="class-name">{c.label}</div>
             <div className="class-desc">{c.desc}</div>
@@ -1533,7 +1536,7 @@ function Handouts({ selectedClass, toast }) {
         <button className="btn btn-accent" onClick={()=>setShowAdd(true)}>+ Add Handout</button>
       </div>
       <div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search handouts..." value={filter} onChange={e=>setFilter(e.target.value)} /></div>
-      {filtered.length===0?<div style={{textAlign:"center",padding:"60px 20px",color:"var(--text3)"}}><div style={{fontSize:48,marginBottom:12}}>📭</div><div style={{fontFamily:"'DM Mono',monospace",fontSize:13}}>No handouts yet!</div></div>:(
+      {filtered.length===0?<div style={{textAlign:"center",padding:"60px 20px",color:"var(--text3)"}}><div style={{fontSize:48,marginBottom:12}}>📭</div><div style={{fontFamily:"var(--font-mono)",fontSize:13}}>No handouts yet!</div></div>:(
         <div className="grid2">
           {filtered.map(h=>{const c=classes.find(x=>x.id===h.classId);return(
             <div key={h.id} className="card" style={{cursor:"pointer"}} onClick={()=>setViewItem(h)}>
@@ -1541,10 +1544,10 @@ function Handouts({ selectedClass, toast }) {
                 <div className="tag tag-accent">{c?.label||"General"}</div>
                 <button className="btn btn-sm btn-danger" onClick={e=>{e.stopPropagation();del(h.id);}}>✕</button>
               </div>
-              <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:15,marginBottom:4}}>{h.title}</div>
+              <div style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:15,marginBottom:4}}>{h.title}</div>
               {h.course&&<div style={{fontSize:11,color:"var(--text3)",marginBottom:6}}>{h.course}</div>}
               <div style={{fontSize:12,color:"var(--text2)",lineHeight:1.5,display:"-webkit-box",WebkitLineClamp:2,WebkitBoxOrient:"vertical",overflow:"hidden"}}>{h.note||"No content"}</div>
-              <div style={{fontSize:10,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginTop:8}}>{h.date}</div>
+              <div style={{fontSize:10,color:"var(--text3)",fontFamily:"var(--font-mono)",marginTop:8}}>{h.date}</div>
             </div>
           );})}
         </div>
@@ -1576,7 +1579,7 @@ function Handouts({ selectedClass, toast }) {
             <div className="modal-head"><div className="modal-title">{viewItem.title}</div><button className="modal-close" onClick={()=>setViewItem(null)}>✕</button></div>
             {viewItem.course&&<div className="tag tag-accent" style={{marginBottom:14,display:"inline-block"}}>{viewItem.course}</div>}
             <div style={{fontSize:14,lineHeight:1.8,color:"var(--text2)",whiteSpace:"pre-wrap"}}>{viewItem.note||"No content."}</div>
-            <div style={{fontSize:10,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginTop:14}}>Added: {viewItem.date}</div>
+            <div style={{fontSize:10,color:"var(--text3)",fontFamily:"var(--font-mono)",marginTop:14}}>Added: {viewItem.date}</div>
           </div>
         </div>
       )}
@@ -1595,7 +1598,7 @@ function Results({ toast }) {
         <div><div className="sec-title">📊 Results</div><div className="sec-sub">Track your scores</div></div>
         <button className="btn btn-accent" onClick={()=>setShowAdd(true)}>+ Add Result</button>
       </div>
-      {results.length===0?<div style={{textAlign:"center",padding:"60px 20px",color:"var(--text3)"}}><div style={{fontSize:48}}>📊</div><div style={{fontFamily:"'DM Mono',monospace",fontSize:13,marginTop:12}}>No results yet!</div></div>:(
+      {results.length===0?<div style={{textAlign:"center",padding:"60px 20px",color:"var(--text3)"}}><div style={{fontSize:48}}>📊</div><div style={{fontFamily:"var(--font-mono)",fontSize:13,marginTop:12}}>No results yet!</div></div>:(
         <div className="card" style={{padding:0,overflow:"hidden"}}>
           <table className="tbl"><thead><tr><th>Subject</th><th>Type</th><th>Score</th><th>%</th><th>Date</th><th></th></tr></thead>
           <tbody>{results.map(r=><tr key={r.id}><td style={{fontWeight:600}}>{r.subject}</td><td><span className="tag">{r.type||"Test"}</span></td><td>{r.score}/{r.total||100}</td><td><span className={`tag ${r.pct>=70?"tag-success":r.pct>=50?"tag-warn":"tag-danger"}`}>{r.pct}%</span></td><td style={{fontSize:12,color:"var(--text3)"}}>{r.date}</td><td><button className="btn btn-sm btn-danger" onClick={()=>{const u=results.filter(x=>x.id!==r.id);setResults(u);lsSet("nv-results",u);}}>✕</button></td></tr>)}</tbody>
@@ -1616,39 +1619,39 @@ function PastQuestionsView({ toast }) {
   const answer=(i)=>{if(answered!==null)return;setAnswered(i);if(i===sel.questions[qIdx].ans)setScore(s=>s+1);};
   const next=()=>{if(qIdx+1>=sel.questions.length){setDone(true);return;}setQIdx(q=>q+1);setAnswered(null);};
   if(quizMode&&sel){
-    if(done)return<div style={{maxWidth:500,margin:"0 auto",textAlign:"center",padding:"40px 0"}}><div style={{fontSize:64,marginBottom:12}}>🎉</div><div className="sec-title">Quiz Complete!</div><div style={{fontSize:48,fontFamily:"'Syne',sans-serif",fontWeight:800,color:"var(--accent)",margin:"14px 0"}}>{score}/{sel.questions.length}</div><div style={{color:"var(--text2)",marginBottom:20}}>{Math.round(score/sel.questions.length*100)}%</div><div style={{display:"flex",gap:10,justifyContent:"center"}}><button className="btn btn-accent" onClick={()=>start(sel)}>Retry</button><button className="btn" onClick={()=>setQuizMode(false)}>Back</button></div></div>;
+    if(done)return<div style={{maxWidth:500,margin:"0 auto",textAlign:"center",padding:"40px 0"}}><div style={{fontSize:64,marginBottom:12}}>🎉</div><div className="sec-title">Quiz Complete!</div><div style={{fontSize:48,fontFamily:"var(--font-sans)",fontWeight:800,color:"var(--accent)",margin:"14px 0"}}>{score}/{sel.questions.length}</div><div style={{color:"var(--text2)",marginBottom:20}}>{Math.round(score/sel.questions.length*100)}%</div><div style={{display:"flex",gap:10,justifyContent:"center"}}><button className="btn btn-accent" onClick={()=>start(sel)}>Retry</button><button className="btn" onClick={()=>setQuizMode(false)}>Back</button></div></div>;
     const q=sel.questions[qIdx];
-    return<div style={{maxWidth:560,margin:"0 auto"}}><div style={{display:"flex",alignItems:"center",gap:10,marginBottom:18}}><button className="btn btn-sm" onClick={()=>setQuizMode(false)}>← Back</button><div style={{flex:1}}><div style={{fontFamily:"'DM Mono',monospace",fontSize:11,color:"var(--text3)",marginBottom:4}}>{sel.subject} · Q{qIdx+1}/{sel.questions.length}</div><div className="progress-wrap"><div className="progress-fill" style={{width:`${((qIdx+1)/sel.questions.length)*100}%`,background:"var(--accent)"}} /></div></div><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,color:"var(--accent)"}}>{score} pts</div></div><div className="card" style={{marginBottom:14}}><div style={{fontFamily:"'Syne',sans-serif",fontSize:16,fontWeight:600,lineHeight:1.5}}>{q.q}</div></div>{q.options.map((opt,i)=><div key={i} className={`quiz-opt${answered!==null?(i===q.ans?" correct":i===answered?" wrong":" reveal"):""}`} onClick={()=>answer(i)}><span style={{fontFamily:"'DM Mono',monospace",fontSize:11,marginRight:8,opacity:.6}}>{"ABCD"[i]}.</span>{opt}</div>)}{answered!==null&&<button className="btn btn-accent" style={{width:"100%",marginTop:12}} onClick={next}>{qIdx+1>=sel.questions.length?"See Results →":"Next →"}</button>}</div>;
+    return<div style={{maxWidth:560,margin:"0 auto"}}><div style={{display:"flex",alignItems:"center",gap:10,marginBottom:18}}><button className="btn btn-sm" onClick={()=>setQuizMode(false)}>← Back</button><div style={{flex:1}}><div style={{fontFamily:"var(--font-mono)",fontSize:11,color:"var(--text3)",marginBottom:4}}>{sel.subject} · Q{qIdx+1}/{sel.questions.length}</div><div className="progress-wrap"><div className="progress-fill" style={{width:`${((qIdx+1)/sel.questions.length)*100}%`,background:"var(--accent)"}} /></div></div><div style={{fontFamily:"var(--font-sans)",fontWeight:700,color:"var(--accent)"}}>{score} pts</div></div><div className="card" style={{marginBottom:14}}><div style={{fontFamily:"var(--font-sans)",fontSize:16,fontWeight:600,lineHeight:1.5}}>{q.q}</div></div>{q.options.map((opt,i)=><div key={i} className={`quiz-opt${answered!==null?(i===q.ans?" correct":i===answered?" wrong":" reveal"):""}`} onClick={()=>answer(i)}><span style={{fontFamily:"var(--font-mono)",fontSize:11,marginRight:8,opacity:.6}}>{"ABCD"[i]}.</span>{opt}</div>)}{answered!==null&&<button className="btn btn-accent" style={{width:"100%",marginTop:12}} onClick={next}>{qIdx+1>=sel.questions.length?"See Results →":"Next →"}</button>}</div>;
   }
-  return<div><div className="sec-title">❓ Past Questions</div><div className="sec-sub">Practice with exam questions</div><div className="grid2">{banks.map((b,i)=><div key={b.id} className="card" style={{animation:`fadeUp .4s ease ${i*.08}s both`}}><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:16,marginBottom:4}}>{b.subject}</div><div style={{fontSize:12,color:"var(--text3)",marginBottom:12}}>{b.year} · {b.questions.length} questions</div><button className="btn btn-accent btn-sm" onClick={()=>start(b)}>Start Quiz ▶</button></div>)}</div></div>;
+  return<div><div className="sec-title">❓ Past Questions</div><div className="sec-sub">Practice with exam questions</div><div className="grid2">{banks.map((b,i)=><div key={b.id} className="card" style={{animation:`fadeUp .4s ease ${i*.08}s both`}}><div style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:16,marginBottom:4}}>{b.subject}</div><div style={{fontSize:12,color:"var(--text3)",marginBottom:12}}>{b.year} · {b.questions.length} questions</div><button className="btn btn-accent btn-sm" onClick={()=>start(b)}>Start Quiz ▶</button></div>)}</div></div>;
 }
 
 function FlashcardsView() {
   const [decks] = useSynced("nv-decks", DEFAULT_DECKS);
   const [selDeck, setSelDeck] = useState(null); const [cardIdx, setCardIdx] = useState(0); const [flipped, setFlipped] = useState(false);
-  if(selDeck){const deck=decks.find(d=>d.id===selDeck);const card=deck.cards[cardIdx];return<div><div style={{display:"flex",alignItems:"center",gap:10,marginBottom:18}}><button className="btn btn-sm" onClick={()=>setSelDeck(null)}>← Back</button><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:16}}>{deck.name}</div><div style={{marginLeft:"auto",fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--text3)"}}>{cardIdx+1}/{deck.cards.length}</div></div><div className="progress-wrap" style={{marginBottom:18}}><div className="progress-fill" style={{width:`${((cardIdx+1)/deck.cards.length)*100}%`,background:"var(--accent)"}} /></div><div className="flashcard" onClick={()=>setFlipped(f=>!f)}><div className={`flashcard-inner${flipped?" flipped":""}`}><div className="flashcard-front"><div className="fc-lbl">QUESTION — tap to flip</div><div className="fc-text">{card.front}</div></div><div className="flashcard-back"><div className="fc-lbl">ANSWER</div><div className="fc-text">{card.back}</div></div></div></div><div style={{display:"flex",gap:10,marginTop:18,justifyContent:"center"}}><button className="btn" disabled={cardIdx===0} onClick={()=>{setCardIdx(i=>i-1);setFlipped(false);}}>← Prev</button><button className="btn btn-accent" onClick={()=>setFlipped(f=>!f)}>Flip 🔄</button><button className="btn" disabled={cardIdx>=deck.cards.length-1} onClick={()=>{setCardIdx(i=>i+1);setFlipped(false);}}>Next →</button></div></div>;}
-  return<div><div className="sec-title">🃏 Flashcards</div><div className="sec-sub">Study with interactive cards</div><div className="grid2">{decks.map((d,i)=><div key={d.id} className="card" style={{cursor:"pointer",animation:`fadeUp .4s ease ${i*.08}s both`}} onClick={()=>{setSelDeck(d.id);setCardIdx(0);setFlipped(false);}}><div style={{fontSize:32,marginBottom:8}}>🃏</div><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:16,marginBottom:4}}>{d.name}</div><div style={{fontSize:12,color:"var(--text3)"}}>{d.cards.length} cards</div></div>)}</div></div>;
+  if(selDeck){const deck=decks.find(d=>d.id===selDeck);const card=deck.cards[cardIdx];return<div><div style={{display:"flex",alignItems:"center",gap:10,marginBottom:18}}><button className="btn btn-sm" onClick={()=>setSelDeck(null)}>← Back</button><div style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:16}}>{deck.name}</div><div style={{marginLeft:"auto",fontFamily:"var(--font-mono)",fontSize:12,color:"var(--text3)"}}>{cardIdx+1}/{deck.cards.length}</div></div><div className="progress-wrap" style={{marginBottom:18}}><div className="progress-fill" style={{width:`${((cardIdx+1)/deck.cards.length)*100}%`,background:"var(--accent)"}} /></div><div className="flashcard" onClick={()=>setFlipped(f=>!f)}><div className={`flashcard-inner${flipped?" flipped":""}`}><div className="flashcard-front"><div className="fc-lbl">QUESTION — tap to flip</div><div className="fc-text">{card.front}</div></div><div className="flashcard-back"><div className="fc-lbl">ANSWER</div><div className="fc-text">{card.back}</div></div></div></div><div style={{display:"flex",gap:10,marginTop:18,justifyContent:"center"}}><button className="btn" disabled={cardIdx===0} onClick={()=>{setCardIdx(i=>i-1);setFlipped(false);}}>← Prev</button><button className="btn btn-accent" onClick={()=>setFlipped(f=>!f)}>Flip 🔄</button><button className="btn" disabled={cardIdx>=deck.cards.length-1} onClick={()=>{setCardIdx(i=>i+1);setFlipped(false);}}>Next →</button></div></div>;}
+  return<div><div className="sec-title">🃏 Flashcards</div><div className="sec-sub">Study with interactive cards</div><div className="grid2">{decks.map((d,i)=><div key={d.id} className="card" style={{cursor:"pointer",animation:`fadeUp .4s ease ${i*.08}s both`}} onClick={()=>{setSelDeck(d.id);setCardIdx(0);setFlipped(false);}}><div style={{fontSize:32,marginBottom:8}}>🃏</div><div style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:16,marginBottom:4}}>{d.name}</div><div style={{fontSize:12,color:"var(--text3)"}}>{d.cards.length} cards</div></div>)}</div></div>;
 }
 
 function DrugGuideView() {
   const [drugs] = useSynced("nv-drugs", DEFAULT_DRUGS);
   const [search, setSearch] = useState(""); const [sel, setSel] = useState(null);
   const filtered = drugs.filter(d=>d.name.toLowerCase().includes(search.toLowerCase())||d.class.toLowerCase().includes(search.toLowerCase()));
-  return<div><div className="sec-title">💊 Drug Guide</div><div className="sec-sub">Quick reference for medications</div><div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search drugs..." value={search} onChange={e=>setSearch(e.target.value)} /></div><div className="grid2">{filtered.map((d,i)=><div key={d.id} className="card" style={{cursor:"pointer",animation:`fadeUp .3s ease ${i*.05}s both`}} onClick={()=>setSel(d)}><div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:15}}>{d.name}</div><span className="tag tag-accent">{d.class?.split("/")[0]}</span></div><div style={{fontSize:12,color:"var(--text3)"}}><b style={{color:"var(--text2)"}}>Dose:</b> {d.dose}</div><div style={{fontSize:12,color:"var(--text3)",marginTop:4}}><b style={{color:"var(--text2)"}}>Uses:</b> {d.uses}</div></div>)}</div>{sel&&<div className="modal-overlay" onClick={()=>setSel(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-head"><div className="modal-title">{sel.name}</div><button className="modal-close" onClick={()=>setSel(null)}>✕</button></div><span className="tag tag-accent" style={{marginBottom:16,display:"inline-block"}}>{sel.class}</span>{[["💊 Dose",sel.dose],["📊 Max",sel.max],["✅ Uses",sel.uses],["⚠️ Contraindications",sel.contraindications],["⚡ Side Effects",sel.side_effects]].map(([l,v])=><div key={l} style={{marginBottom:14}}><div style={{fontFamily:"'DM Mono',monospace",fontSize:10,color:"var(--text3)",marginBottom:4,textTransform:"uppercase",letterSpacing:"1px"}}>{l}</div><div style={{fontSize:14,color:"var(--text2)"}}>{v||"—"}</div></div>)}</div></div>}</div>;
+  return<div><div className="sec-title">💊 Drug Guide</div><div className="sec-sub">Quick reference for medications</div><div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search drugs..." value={search} onChange={e=>setSearch(e.target.value)} /></div><div className="grid2">{filtered.map((d,i)=><div key={d.id} className="card" style={{cursor:"pointer",animation:`fadeUp .3s ease ${i*.05}s both`}} onClick={()=>setSel(d)}><div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:8}}><div style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:15}}>{d.name}</div><span className="tag tag-accent">{d.class?.split("/")[0]}</span></div><div style={{fontSize:12,color:"var(--text3)"}}><b style={{color:"var(--text2)"}}>Dose:</b> {d.dose}</div><div style={{fontSize:12,color:"var(--text3)",marginTop:4}}><b style={{color:"var(--text2)"}}>Uses:</b> {d.uses}</div></div>)}</div>{sel&&<div className="modal-overlay" onClick={()=>setSel(null)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-head"><div className="modal-title">{sel.name}</div><button className="modal-close" onClick={()=>setSel(null)}>✕</button></div><span className="tag tag-accent" style={{marginBottom:16,display:"inline-block"}}>{sel.class}</span>{[["💊 Dose",sel.dose],["📊 Max",sel.max],["✅ Uses",sel.uses],["⚠️ Contraindications",sel.contraindications],["⚡ Side Effects",sel.side_effects]].map(([l,v])=><div key={l} style={{marginBottom:14}}><div style={{fontFamily:"var(--font-mono)",fontSize:10,color:"var(--text3)",marginBottom:4,textTransform:"uppercase",letterSpacing:"1px"}}>{l}</div><div style={{fontSize:14,color:"var(--text2)"}}>{v||"—"}</div></div>)}</div></div>}</div>;
 }
 
 function LabReferenceView() {
   const [labs] = useSynced("nv-labs", DEFAULT_LABS);
   const [search, setSearch] = useState("");
   const filtered = labs.filter(l=>l.test.toLowerCase().includes(search.toLowerCase()));
-  return<div><div className="sec-title">🧪 Lab Reference</div><div className="sec-sub">Normal laboratory values</div><div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search test name..." value={search} onChange={e=>setSearch(e.target.value)} /></div><div className="card" style={{padding:0,overflow:"hidden"}}><table className="tbl"><thead><tr><th>Test</th><th>Male</th><th>Female</th><th>Notes</th></tr></thead><tbody>{filtered.map(r=><tr key={r.id}><td style={{fontWeight:700}}>{r.test}</td><td style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--accent)"}}>{r.male}</td><td style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--accent2)"}}>{r.female}</td><td style={{fontSize:12,color:"var(--text3)"}}>{r.notes}</td></tr>)}</tbody></table></div></div>;
+  return<div><div className="sec-title">🧪 Lab Reference</div><div className="sec-sub">Normal laboratory values</div><div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search test name..." value={search} onChange={e=>setSearch(e.target.value)} /></div><div className="card" style={{padding:0,overflow:"hidden"}}><table className="tbl"><thead><tr><th>Test</th><th>Male</th><th>Female</th><th>Notes</th></tr></thead><tbody>{filtered.map(r=><tr key={r.id}><td style={{fontWeight:700}}>{r.test}</td><td style={{fontFamily:"var(--font-mono)",fontSize:12,color:"var(--accent)"}}>{r.male}</td><td style={{fontFamily:"var(--font-mono)",fontSize:12,color:"var(--accent2)"}}>{r.female}</td><td style={{fontSize:12,color:"var(--text3)"}}>{r.notes}</td></tr>)}</tbody></table></div></div>;
 }
 
 function DictionaryView() {
   const [dict] = useSynced("nv-dict", DEFAULT_DICT);
   const [search, setSearch] = useState("");
   const filtered = dict.filter(d=>d.term.toLowerCase().includes(search.toLowerCase())||d.def.toLowerCase().includes(search.toLowerCase()));
-  return<div><div className="sec-title">📖 Medical Dictionary</div><div className="sec-sub">{dict.length} terms</div><div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search terms..." value={search} onChange={e=>setSearch(e.target.value)} /></div><div className="grid2">{filtered.map((t,i)=><div key={t.id} className="card2" style={{animation:`fadeUp .3s ease ${i*.03}s both`}}><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:15,color:"var(--accent)",marginBottom:5}}>{t.term}</div><div style={{fontSize:13,color:"var(--text2)",lineHeight:1.5}}>{t.def}</div></div>)}</div></div>;
+  return<div><div className="sec-title">📖 Medical Dictionary</div><div className="sec-sub">{dict.length} terms</div><div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search terms..." value={search} onChange={e=>setSearch(e.target.value)} /></div><div className="grid2">{filtered.map((t,i)=><div key={t.id} className="card2" style={{animation:`fadeUp .3s ease ${i*.03}s both`}}><div style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:15,color:"var(--accent)",marginBottom:5}}>{t.term}</div><div style={{fontSize:13,color:"var(--text2)",lineHeight:1.5}}>{t.def}</div></div>)}</div></div>;
 }
 
 function SkillsView() {
@@ -1656,7 +1659,7 @@ function SkillsView() {
   const [done, setDone] = useSynced("nv-skills-done", {});
   const toggle=(id)=>{const u={...done,[id]:!done[id]};setDone(u);lsSet("nv-skills-done",u);};
   const count = skillsDb.filter(s=>done[s.id]).length;
-  return<div><div className="sec-title">✅ Skills Checklist</div><div className="sec-sub">Track clinical competencies</div><div className="card" style={{marginBottom:16}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}><span style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--text3)"}}>Progress</span><span style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--accent)"}}>{count}/{skillsDb.length}</span></div><div className="progress-wrap"><div className="progress-fill" style={{width:`${skillsDb.length>0?(count/skillsDb.length)*100:0}%`,background:"linear-gradient(90deg,var(--accent),var(--accent2))"}} /></div></div>{skillsDb.map(s=><div key={s.id} className="card2" style={{marginBottom:8,display:"flex",alignItems:"center",gap:12,cursor:"pointer",opacity:done[s.id]?.6:1}} onClick={()=>toggle(s.id)}><div style={{width:22,height:22,borderRadius:6,border:`2px solid ${done[s.id]?"var(--success)":"var(--border2)"}`,background:done[s.id]?"var(--success)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .2s"}}>{done[s.id]&&<span style={{fontSize:12,color:"white"}}>✓</span>}</div><div style={{fontSize:14,fontWeight:500,textDecoration:done[s.id]?"line-through":"none",flex:1}}>{s.name}</div>{done[s.id]&&<span className="tag tag-success">Done</span>}</div>)}</div>;
+  return<div><div className="sec-title">✅ Skills Checklist</div><div className="sec-sub">Track clinical competencies</div><div className="card" style={{marginBottom:16}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}><span style={{fontFamily:"var(--font-mono)",fontSize:12,color:"var(--text3)"}}>Progress</span><span style={{fontFamily:"var(--font-mono)",fontSize:12,color:"var(--accent)"}}>{count}/{skillsDb.length}</span></div><div className="progress-wrap"><div className="progress-fill" style={{width:`${skillsDb.length>0?(count/skillsDb.length)*100:0}%`,background:"linear-gradient(90deg,var(--accent),var(--accent2))"}} /></div></div>{skillsDb.map(s=><div key={s.id} className="card2" style={{marginBottom:8,display:"flex",alignItems:"center",gap:12,cursor:"pointer",opacity:done[s.id]?.6:1}} onClick={()=>toggle(s.id)}><div style={{width:22,height:22,borderRadius:6,border:`2px solid ${done[s.id]?"var(--success)":"var(--border2)"}`,background:done[s.id]?"var(--success)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .2s"}}>{done[s.id]&&<span style={{fontSize:12,color:"white"}}>✓</span>}</div><div style={{fontSize:14,fontWeight:500,textDecoration:done[s.id]?"line-through":"none",flex:1}}>{s.name}</div>{done[s.id]&&<span className="tag tag-success">Done</span>}</div>)}</div>;
 }
 
 function GPACalc({ toast }) {
@@ -1667,7 +1670,7 @@ function GPACalc({ toast }) {
   const tp=courses.reduce((s,c)=>s+c.units*c.grade,0),tu=courses.reduce((s,c)=>s+c.units,0),gpa=tu>0?tp/tu:0;
   const cls=gpa>=4.5?"First Class":gpa>=3.5?"Second Class Upper":gpa>=2.5?"Second Class Lower":gpa>=1.5?"Third Class":"Fail";
   const clsColor=gpa>=4.5?"var(--accent)":gpa>=3.5?"var(--accent2)":gpa>=2.5?"var(--warn)":"var(--danger)";
-  return<div><div className="sec-title">🎓 GPA Calculator</div><div className="sec-sub">5.0 scale</div>{courses.length>0&&<div className="card" style={{marginBottom:18,textAlign:"center"}}><div style={{fontFamily:"'DM Mono',monospace",fontSize:10,color:"var(--text3)",marginBottom:6,textTransform:"uppercase",letterSpacing:"1px"}}>Your GPA</div><div style={{fontFamily:"'Syne',sans-serif",fontSize:56,fontWeight:800,color:"var(--accent)"}}>{gpa.toFixed(2)}</div><div style={{fontSize:16,color:clsColor,fontWeight:600,marginBottom:8}}>{cls}</div><div className="gpa-bar-wrap"><div className="gpa-bar" style={{width:`${(gpa/5)*100}%`}} /></div></div>}<div className="card" style={{marginBottom:14}}><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:12}}>Add Course</div><div className="grid3" style={{gap:10,alignItems:"end"}}><div><label className="lbl">Course</label><input className="inp" style={{marginBottom:0}} placeholder="Pharmacology" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} /></div><div><label className="lbl">Units</label><input className="inp" style={{marginBottom:0}} type="number" min="1" max="6" value={form.units} onChange={e=>setForm({...form,units:e.target.value})} /></div><div><label className="lbl">Grade</label><select className="inp" style={{marginBottom:0}} value={form.grade} onChange={e=>setForm({...form,grade:e.target.value})}><option value="">Select...</option>{GRADES.map(g=><option key={g.l} value={g.p}>{g.l} ({g.p})</option>)}</select></div></div><button className="btn btn-accent" style={{marginTop:10}} onClick={add}>Add</button></div>{courses.map((c,i)=><div key={c.id} className="course-row"><div style={{flex:1}}><div style={{fontWeight:600,fontSize:13}}>{c.name}</div><div style={{fontSize:11,color:"var(--text3)"}}>{c.units} unit{c.units>1?"s":""}</div></div><div style={{width:36,height:36,borderRadius:9,background:"rgba(62,142,149,.1)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Syne',sans-serif",fontWeight:700,color:"var(--accent)"}}>{GRADES.find(g=>+g.p===c.grade)?.l}</div><button className="btn btn-sm btn-danger" onClick={()=>{const u=courses.filter(x=>x.id!==c.id);setCourses(u);lsSet("nv-gpa-courses",u);}}>✕</button></div>)}{courses.length>0&&<button className="btn btn-sm btn-danger" style={{marginTop:8}} onClick={()=>{setCourses([]);lsSet("nv-gpa-courses",[]);}}>Clear All</button>}</div>;
+  return<div><div className="sec-title">🎓 GPA Calculator</div><div className="sec-sub">5.0 scale</div>{courses.length>0&&<div className="card" style={{marginBottom:18,textAlign:"center"}}><div style={{fontFamily:"var(--font-mono)",fontSize:10,color:"var(--text3)",marginBottom:6,textTransform:"uppercase",letterSpacing:"1px"}}>Your GPA</div><div style={{fontFamily:"var(--font-sans)",fontSize:56,fontWeight:800,color:"var(--accent)"}}>{gpa.toFixed(2)}</div><div style={{fontSize:16,color:clsColor,fontWeight:600,marginBottom:8}}>{cls}</div><div className="gpa-bar-wrap"><div className="gpa-bar" style={{width:`${(gpa/5)*100}%`}} /></div></div>}<div className="card" style={{marginBottom:14}}><div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:12}}>Add Course</div><div className="grid3" style={{gap:10,alignItems:"end"}}><div><label className="lbl">Course</label><input className="inp" style={{marginBottom:0}} placeholder="Pharmacology" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} /></div><div><label className="lbl">Units</label><input className="inp" style={{marginBottom:0}} type="number" min="1" max="6" value={form.units} onChange={e=>setForm({...form,units:e.target.value})} /></div><div><label className="lbl">Grade</label><select className="inp" style={{marginBottom:0}} value={form.grade} onChange={e=>setForm({...form,grade:e.target.value})}><option value="">Select...</option>{GRADES.map(g=><option key={g.l} value={g.p}>{g.l} ({g.p})</option>)}</select></div></div><button className="btn btn-accent" style={{marginTop:10}} onClick={add}>Add</button></div>{courses.map((c,i)=><div key={c.id} className="course-row"><div style={{flex:1}}><div style={{fontWeight:600,fontSize:13}}>{c.name}</div><div style={{fontSize:11,color:"var(--text3)"}}>{c.units} unit{c.units>1?"s":""}</div></div><div style={{width:36,height:36,borderRadius:9,background:"rgba(59,130,246,.1)",display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"var(--font-sans)",fontWeight:700,color:"var(--accent)"}}>{GRADES.find(g=>+g.p===c.grade)?.l}</div><button className="btn btn-sm btn-danger" onClick={()=>{const u=courses.filter(x=>x.id!==c.id);setCourses(u);lsSet("nv-gpa-courses",u);}}>✕</button></div>)}{courses.length>0&&<button className="btn btn-sm btn-danger" style={{marginTop:8}} onClick={()=>{setCourses([]);lsSet("nv-gpa-courses",[]);}}>Clear All</button>}</div>;
 }
 
 function MedCalc() {
@@ -1677,7 +1680,7 @@ function MedCalc() {
   const [bmi,setBmi]=useState({h:"",w:""});
   const bmiVal=bmi.h&&bmi.w?(+bmi.w/(+bmi.h/100)**2).toFixed(1):null;
   const bmiCls=bmiVal?+bmiVal<18.5?"Underweight":+bmiVal<25?"Normal":+bmiVal<30?"Overweight":"Obese":null;
-  return<div><div className="sec-title">🧮 Med Calculator</div><div className="sec-sub">Drug dosage & BMI</div><div className="grid2"><div className="card"><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:12}}>💊 Dose Calculator</div><label className="lbl">Dose (mg/kg)</label><input className="inp" type="number" placeholder="10" value={dose} onChange={e=>setDose(e.target.value)} /><label className="lbl">Weight (kg)</label><input className="inp" type="number" placeholder="70" value={weight} onChange={e=>setWeight(e.target.value)} />{result&&<div className="card2" style={{textAlign:"center",marginBottom:12}}><div style={{fontFamily:"'DM Mono',monospace",fontSize:10,color:"var(--text3)"}}>REQUIRED DOSE</div><div style={{fontFamily:"'Syne',sans-serif",fontSize:26,fontWeight:800,color:"var(--accent)"}}>{result} mg</div></div>}<label className="lbl">Drug Available (mg)</label><input className="inp" type="number" value={avail} onChange={e=>setAvail(e.target.value)} /><label className="lbl">Available Volume (mL)</label><input className="inp" type="number" value={vol} onChange={e=>setVol(e.target.value)} />{volume&&<div className="card2" style={{textAlign:"center"}}><div style={{fontFamily:"'DM Mono',monospace",fontSize:10,color:"var(--text3)"}}>GIVE</div><div style={{fontFamily:"'Syne',sans-serif",fontSize:26,fontWeight:800,color:"var(--accent2)"}}>{volume} mL</div></div>}</div><div className="card"><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:12}}>⚖️ BMI</div><label className="lbl">Height (cm)</label><input className="inp" type="number" value={bmi.h} onChange={e=>setBmi({...bmi,h:e.target.value})} /><label className="lbl">Weight (kg)</label><input className="inp" type="number" value={bmi.w} onChange={e=>setBmi({...bmi,w:e.target.value})} />{bmiVal&&<div className="card2" style={{textAlign:"center"}}><div style={{fontFamily:"'DM Mono',monospace",fontSize:10,color:"var(--text3)"}}>BMI</div><div style={{fontFamily:"'Syne',sans-serif",fontSize:48,fontWeight:800,color:"var(--accent)"}}>{bmiVal}</div><div style={{color:+bmiVal<18.5?"var(--warn)":+bmiVal<25?"var(--success)":+bmiVal<30?"var(--warn)":"var(--danger)",fontWeight:600}}>{bmiCls}</div></div>}</div></div></div>;
+  return<div><div className="sec-title">🧮 Med Calculator</div><div className="sec-sub">Drug dosage & BMI</div><div className="grid2"><div className="card"><div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:12}}>💊 Dose Calculator</div><label className="lbl">Dose (mg/kg)</label><input className="inp" type="number" placeholder="10" value={dose} onChange={e=>setDose(e.target.value)} /><label className="lbl">Weight (kg)</label><input className="inp" type="number" placeholder="70" value={weight} onChange={e=>setWeight(e.target.value)} />{result&&<div className="card2" style={{textAlign:"center",marginBottom:12}}><div style={{fontFamily:"var(--font-mono)",fontSize:10,color:"var(--text3)"}}>REQUIRED DOSE</div><div style={{fontFamily:"var(--font-sans)",fontSize:26,fontWeight:800,color:"var(--accent)"}}>{result} mg</div></div>}<label className="lbl">Drug Available (mg)</label><input className="inp" type="number" value={avail} onChange={e=>setAvail(e.target.value)} /><label className="lbl">Available Volume (mL)</label><input className="inp" type="number" value={vol} onChange={e=>setVol(e.target.value)} />{volume&&<div className="card2" style={{textAlign:"center"}}><div style={{fontFamily:"var(--font-mono)",fontSize:10,color:"var(--text3)"}}>GIVE</div><div style={{fontFamily:"var(--font-sans)",fontSize:26,fontWeight:800,color:"var(--accent2)"}}>{volume} mL</div></div>}</div><div className="card"><div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:12}}>⚖️ BMI</div><label className="lbl">Height (cm)</label><input className="inp" type="number" value={bmi.h} onChange={e=>setBmi({...bmi,h:e.target.value})} /><label className="lbl">Weight (kg)</label><input className="inp" type="number" value={bmi.w} onChange={e=>setBmi({...bmi,w:e.target.value})} />{bmiVal&&<div className="card2" style={{textAlign:"center"}}><div style={{fontFamily:"var(--font-mono)",fontSize:10,color:"var(--text3)"}}>BMI</div><div style={{fontFamily:"var(--font-sans)",fontSize:48,fontWeight:800,color:"var(--accent)"}}>{bmiVal}</div><div style={{color:+bmiVal<18.5?"var(--warn)":+bmiVal<25?"var(--success)":+bmiVal<30?"var(--warn)":"var(--danger)",fontWeight:600}}>{bmiCls}</div></div>}</div></div></div>;
 }
 
 function Timetable({ toast }) {
@@ -1687,7 +1690,7 @@ function Timetable({ toast }) {
   const DAYS=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
   const COLORS={Lecture:"var(--accent)",Practical:"var(--warn)",Tutorial:"var(--accent2)",Clinical:"var(--danger)"};
   const save=()=>{if(!form.time||!form.subject)return toast("Fill required fields","error");const u=[...tt,{...form,id:Date.now()}];setTt(u);lsSet("nv-timetable",u);setShowAdd(false);toast("Added!","success");};
-  return<div><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16,flexWrap:"wrap",gap:10}}><div><div className="sec-title">📅 Timetable</div><div className="sec-sub">Weekly schedule</div></div><button className="btn btn-accent" onClick={()=>setShowAdd(true)}>+ Add Class</button></div>{DAYS.map(day=>{const dc=tt.filter(t=>t.day===day);if(!dc.length)return null;return<div key={day} style={{marginBottom:18}}><div style={{fontFamily:"'DM Mono',monospace",fontSize:11,color:"var(--text3)",marginBottom:8,textTransform:"uppercase",letterSpacing:"1px"}}>{day}</div>{dc.sort((a,b)=>a.time.localeCompare(b.time)).map(c=><div key={c.id} className="card2" style={{marginBottom:7,display:"flex",alignItems:"center",gap:12,borderLeft:`3px solid ${COLORS[c.type]||"var(--accent)"}`}}><div style={{fontFamily:"'DM Mono',monospace",fontSize:13,fontWeight:600,color:"var(--accent)",minWidth:48}}>{c.time}</div><div style={{flex:1}}><div style={{fontWeight:600,fontSize:14}}>{c.subject}</div>{c.venue&&<div style={{fontSize:11,color:"var(--text3)"}}>{c.venue}</div>}</div><span className="tt-badge" style={{background:`${COLORS[c.type]||"var(--accent)"}20`,color:COLORS[c.type]||"var(--accent)"}}>{c.type}</span><button className="btn btn-sm btn-danger" onClick={()=>{const u=tt.filter(x=>x.id!==c.id);setTt(u);lsSet("nv-timetable",u);}}>✕</button></div>)}</div>;})} {tt.length===0&&<div style={{textAlign:"center",padding:"50px",color:"var(--text3)"}}><div style={{fontSize:48}}>📅</div><div style={{fontFamily:"'DM Mono',monospace",fontSize:13,marginTop:12}}>No classes added.</div></div>}{showAdd&&<div className="modal-overlay" onClick={()=>setShowAdd(false)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-head"><div className="modal-title">Add Class</div><button className="modal-close" onClick={()=>setShowAdd(false)}>✕</button></div>{[["Day","day","select"],["Time","time","time"],["Subject","subject","text"],["Venue","venue","text"],["Type","type","select"]].map(([l,k,t])=><div key={k}><label className="lbl">{l}</label>{t==="select"?<select className="inp" value={form[k]} onChange={e=>setForm({...form,[k]:e.target.value})}>{k==="day"?DAYS.map(d=><option key={d}>{d}</option>):["Lecture","Practical","Tutorial","Clinical"].map(d=><option key={d}>{d}</option>)}</select>:<input className="inp" type={t} value={form[k]} onChange={e=>setForm({...form,[k]:e.target.value})} />}</div>)}<div style={{display:"flex",gap:8}}><button className="btn btn-accent" style={{flex:1}} onClick={save}>Save</button><button className="btn" onClick={()=>setShowAdd(false)}>Cancel</button></div></div></div>}</div>;
+  return<div><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16,flexWrap:"wrap",gap:10}}><div><div className="sec-title">📅 Timetable</div><div className="sec-sub">Weekly schedule</div></div><button className="btn btn-accent" onClick={()=>setShowAdd(true)}>+ Add Class</button></div>{DAYS.map(day=>{const dc=tt.filter(t=>t.day===day);if(!dc.length)return null;return<div key={day} style={{marginBottom:18}}><div style={{fontFamily:"var(--font-mono)",fontSize:11,color:"var(--text3)",marginBottom:8,textTransform:"uppercase",letterSpacing:"1px"}}>{day}</div>{dc.sort((a,b)=>a.time.localeCompare(b.time)).map(c=><div key={c.id} className="card2" style={{marginBottom:7,display:"flex",alignItems:"center",gap:12,borderLeft:`3px solid ${COLORS[c.type]||"var(--accent)"}`}}><div style={{fontFamily:"var(--font-mono)",fontSize:13,fontWeight:600,color:"var(--accent)",minWidth:48}}>{c.time}</div><div style={{flex:1}}><div style={{fontWeight:600,fontSize:14}}>{c.subject}</div>{c.venue&&<div style={{fontSize:11,color:"var(--text3)"}}>{c.venue}</div>}</div><span className="tt-badge" style={{background:`${COLORS[c.type]||"var(--accent)"}20`,color:COLORS[c.type]||"var(--accent)"}}>{c.type}</span><button className="btn btn-sm btn-danger" onClick={()=>{const u=tt.filter(x=>x.id!==c.id);setTt(u);lsSet("nv-timetable",u);}}>✕</button></div>)}</div>;})} {tt.length===0&&<div style={{textAlign:"center",padding:"50px",color:"var(--text3)"}}><div style={{fontSize:48}}>📅</div><div style={{fontFamily:"var(--font-mono)",fontSize:13,marginTop:12}}>No classes added.</div></div>}{showAdd&&<div className="modal-overlay" onClick={()=>setShowAdd(false)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-head"><div className="modal-title">Add Class</div><button className="modal-close" onClick={()=>setShowAdd(false)}>✕</button></div>{[["Day","day","select"],["Time","time","time"],["Subject","subject","text"],["Venue","venue","text"],["Type","type","select"]].map(([l,k,t])=><div key={k}><label className="lbl">{l}</label>{t==="select"?<select className="inp" value={form[k]} onChange={e=>setForm({...form,[k]:e.target.value})}>{k==="day"?DAYS.map(d=><option key={d}>{d}</option>):["Lecture","Practical","Tutorial","Clinical"].map(d=><option key={d}>{d}</option>)}</select>:<input className="inp" type={t} value={form[k]} onChange={e=>setForm({...form,[k]:e.target.value})} />}</div>)}<div style={{display:"flex",gap:8}}><button className="btn btn-accent" style={{flex:1}} onClick={save}>Save</button><button className="btn" onClick={()=>setShowAdd(false)}>Cancel</button></div></div></div>}</div>;
 }
 
 function StudyPlanner({ toast }) {
@@ -1699,7 +1702,7 @@ function StudyPlanner({ toast }) {
   const del=(id)=>{const u=tasks.filter(t=>t.id!==id);setTasks(u);lsSet("nv-tasks",u);};
   const pColor={High:"var(--danger)",Medium:"var(--warn)",Low:"var(--accent)"};
   const pending=tasks.filter(t=>!t.done).length;
-  return<div><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16,flexWrap:"wrap",gap:10}}><div><div className="sec-title">📅 Study Planner</div><div className="sec-sub">{pending} task{pending!==1?"s":""} pending</div></div><button className="btn btn-accent" onClick={()=>setShowAdd(true)}>+ Add Task</button></div>{tasks.length===0&&<div style={{textAlign:"center",padding:"60px",color:"var(--text3)"}}><div style={{fontSize:48}}>✅</div><div style={{fontFamily:"'DM Mono',monospace",fontSize:13,marginTop:12}}>No tasks!</div></div>}{tasks.map(t=><div key={t.id} className="card2" style={{marginBottom:8,display:"flex",alignItems:"center",gap:12,opacity:t.done?.5:1}}><div style={{width:22,height:22,borderRadius:6,border:`2px solid ${t.done?"var(--success)":"var(--border2)"}`,background:t.done?"var(--success)":"transparent",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .2s"}} onClick={()=>toggle(t.id)}>{t.done&&<span style={{fontSize:12,color:"white"}}>✓</span>}</div><div style={{flex:1}}><div style={{fontWeight:600,fontSize:14,textDecoration:t.done?"line-through":"none"}}>{t.task}</div>{(t.subject||t.due)&&<div style={{fontSize:11,color:"var(--text3)",fontFamily:"'DM Mono',monospace"}}>{t.subject}{t.subject&&t.due?" · ":""}{t.due}</div>}</div><span className="tag" style={{borderColor:pColor[t.priority],color:pColor[t.priority]}}>{t.priority}</span><button className="btn btn-sm btn-danger" onClick={()=>del(t.id)}>✕</button></div>)}{showAdd&&<div className="modal-overlay" onClick={()=>setShowAdd(false)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-head"><div className="modal-title">Add Task</div><button className="modal-close" onClick={()=>setShowAdd(false)}>✕</button></div><label className="lbl">Task</label><input className="inp" value={form.task} onChange={e=>setForm({...form,task:e.target.value})} /><label className="lbl">Subject</label><input className="inp" value={form.subject} onChange={e=>setForm({...form,subject:e.target.value})} /><label className="lbl">Due Date</label><input className="inp" type="date" value={form.due} onChange={e=>setForm({...form,due:e.target.value})} /><label className="lbl">Priority</label><select className="inp" value={form.priority} onChange={e=>setForm({...form,priority:e.target.value})}>{["High","Medium","Low"].map(p=><option key={p}>{p}</option>)}</select><div style={{display:"flex",gap:8}}><button className="btn btn-accent" style={{flex:1}} onClick={save}>Add</button><button className="btn" onClick={()=>setShowAdd(false)}>Cancel</button></div></div></div>}</div>;
+  return<div><div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:16,flexWrap:"wrap",gap:10}}><div><div className="sec-title">📅 Study Planner</div><div className="sec-sub">{pending} task{pending!==1?"s":""} pending</div></div><button className="btn btn-accent" onClick={()=>setShowAdd(true)}>+ Add Task</button></div>{tasks.length===0&&<div style={{textAlign:"center",padding:"60px",color:"var(--text3)"}}><div style={{fontSize:48}}>✅</div><div style={{fontFamily:"var(--font-mono)",fontSize:13,marginTop:12}}>No tasks!</div></div>}{tasks.map(t=><div key={t.id} className="card2" style={{marginBottom:8,display:"flex",alignItems:"center",gap:12,opacity:t.done?.5:1}}><div style={{width:22,height:22,borderRadius:6,border:`2px solid ${t.done?"var(--success)":"var(--border2)"}`,background:t.done?"var(--success)":"transparent",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,transition:"all .2s"}} onClick={()=>toggle(t.id)}>{t.done&&<span style={{fontSize:12,color:"white"}}>✓</span>}</div><div style={{flex:1}}><div style={{fontWeight:600,fontSize:14,textDecoration:t.done?"line-through":"none"}}>{t.task}</div>{(t.subject||t.due)&&<div style={{fontSize:11,color:"var(--text3)",fontFamily:"var(--font-mono)"}}>{t.subject}{t.subject&&t.due?" · ":""}{t.due}</div>}</div><span className="tag" style={{borderColor:pColor[t.priority],color:pColor[t.priority]}}>{t.priority}</span><button className="btn btn-sm btn-danger" onClick={()=>del(t.id)}>✕</button></div>)}{showAdd&&<div className="modal-overlay" onClick={()=>setShowAdd(false)}><div className="modal" onClick={e=>e.stopPropagation()}><div className="modal-head"><div className="modal-title">Add Task</div><button className="modal-close" onClick={()=>setShowAdd(false)}>✕</button></div><label className="lbl">Task</label><input className="inp" value={form.task} onChange={e=>setForm({...form,task:e.target.value})} /><label className="lbl">Subject</label><input className="inp" value={form.subject} onChange={e=>setForm({...form,subject:e.target.value})} /><label className="lbl">Due Date</label><input className="inp" type="date" value={form.due} onChange={e=>setForm({...form,due:e.target.value})} /><label className="lbl">Priority</label><select className="inp" value={form.priority} onChange={e=>setForm({...form,priority:e.target.value})}>{["High","Medium","Low"].map(p=><option key={p}>{p}</option>)}</select><div style={{display:"flex",gap:8}}><button className="btn btn-accent" style={{flex:1}} onClick={save}>Add</button><button className="btn" onClick={()=>setShowAdd(false)}>Cancel</button></div></div></div>}</div>;
 }
 
 function Messages({ user, toast }) {
@@ -1707,14 +1710,14 @@ function Messages({ user, toast }) {
   const [input, setInput] = useState("");
   const announcements = ls("nv-announcements",[]);
   const send=()=>{if(!input.trim())return;const msg={id:Date.now(),from:user,text:input,time:"Just now",read:true,mine:true};const u=[...msgs,msg];setMsgs(u);lsSet("nv-messages",u);setInput("");};
-  return<div><div className="sec-title">💬 Messages</div><div className="sec-sub">Notifications and chat</div>{announcements.filter(a=>a.pinned).map(a=><div key={a.id} style={{background:"rgba(251,146,60,.08)",border:"1px solid rgba(251,146,60,.2)",borderRadius:10,padding:"10px 14px",marginBottom:10,fontSize:13}}><b>📌 {a.title}:</b> {a.body}</div>)}<div className="card" style={{marginBottom:14,minHeight:250,display:"flex",flexDirection:"column",gap:8,padding:14}}>{msgs.map(m=><div key={m.id} style={{display:"flex",gap:8,alignItems:"flex-start",justifyContent:m.mine?"flex-end":"flex-start"}}>{!m.mine&&<div style={{width:30,height:30,borderRadius:50,background:"linear-gradient(135deg,var(--accent),var(--accent2))",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,flexShrink:0}}>📢</div>}<div style={{maxWidth:"75%"}}>{!m.mine&&<div style={{fontSize:10,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:3}}>{m.from} · {m.time}</div>}<div style={{background:m.mine?"linear-gradient(135deg,var(--accent),var(--accent2))":"var(--card2)",borderRadius:m.mine?"14px 14px 4px 14px":"14px 14px 14px 4px",padding:"9px 13px",fontSize:14,color:m.mine?"white":"var(--text)"}}>{m.text}</div></div></div>)}</div><div style={{display:"flex",gap:8}}><input className="inp" style={{flex:1,marginBottom:0}} placeholder="Type a message..." value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} /><button className="btn btn-accent" onClick={send}>Send</button></div></div>;
+  return<div><div className="sec-title">💬 Messages</div><div className="sec-sub">Notifications and chat</div>{announcements.filter(a=>a.pinned).map(a=><div key={a.id} style={{background:"rgba(251,146,60,.08)",border:"1px solid rgba(251,146,60,.2)",borderRadius:10,padding:"10px 14px",marginBottom:10,fontSize:13}}><b>📌 {a.title}:</b> {a.body}</div>)}<div className="card" style={{marginBottom:14,minHeight:250,display:"flex",flexDirection:"column",gap:8,padding:14}}>{msgs.map(m=><div key={m.id} style={{display:"flex",gap:8,alignItems:"flex-start",justifyContent:m.mine?"flex-end":"flex-start"}}>{!m.mine&&<div style={{width:30,height:30,borderRadius:50,background:"linear-gradient(135deg,var(--accent),var(--accent2))",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,flexShrink:0}}>📢</div>}<div style={{maxWidth:"75%"}}>{!m.mine&&<div style={{fontSize:10,color:"var(--text3)",fontFamily:"var(--font-mono)",marginBottom:3}}>{m.from} · {m.time}</div>}<div style={{background:m.mine?"linear-gradient(135deg,var(--accent),var(--accent2))":"var(--card2)",borderRadius:m.mine?"14px 14px 4px 14px":"14px 14px 14px 4px",padding:"9px 13px",fontSize:14,color:m.mine?"white":"var(--text)"}}>{m.text}</div></div></div>)}</div><div style={{display:"flex",gap:8}}><input className="inp" style={{flex:1,marginBottom:0}} placeholder="Type a message..." value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&send()} /><button className="btn btn-accent" onClick={send}>Send</button></div></div>;
 }
 
 function StudyProgress() {
   const results=ls("nv-results",[]);const tasks=ls("nv-tasks",[]);const skillsDb=ls("nv-skillsdb",DEFAULT_SKILLS);const done=ls("nv-skills-done",{});
   const doneTasks=tasks.filter(t=>t.done).length;const doneSkills=skillsDb.filter(s=>done[s.id]).length;
   const avg=results.length>0?Math.round(results.reduce((s,r)=>s+r.pct,0)/results.length):0;
-  return<div><div className="sec-title">📈 Study Progress</div><div className="sec-sub">Your academic overview</div><div className="grid3" style={{marginBottom:20}}>{[{lbl:"Avg Score",val:`${avg}%`,sub:`${results.length} results`,color:"var(--accent)"},{lbl:"Tasks Done",val:`${doneTasks}/${tasks.length}`,sub:"Completed",color:"var(--success)"},{lbl:"Skills",val:`${doneSkills}/${skillsDb.length}`,sub:"Competencies",color:"var(--accent2)"}].map(s=><div key={s.lbl} className="stat-card"><div className="stat-lbl">{s.lbl}</div><div className="stat-val" style={{color:s.color,fontSize:24}}>{s.val}</div><div className="stat-sub">{s.sub}</div></div>)}</div>{results.length>0&&<div className="card"><div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:12}}>Recent Results</div>{results.slice(-5).reverse().map(r=><div key={r.id} style={{display:"flex",alignItems:"center",gap:10,padding:"7px 0",borderBottom:"1px solid var(--border)"}}><div style={{flex:1}}><div style={{fontWeight:600,fontSize:13}}>{r.subject}</div><div style={{fontSize:11,color:"var(--text3)"}}>{r.type} · {r.date}</div></div><div style={{flex:1,background:"var(--bg4)",borderRadius:20,height:6,overflow:"hidden"}}><div style={{height:"100%",borderRadius:20,width:`${r.pct}%`,background:r.pct>=70?"var(--success)":r.pct>=50?"var(--warn)":"var(--danger)"}} /></div><span style={{fontFamily:"'Syne',sans-serif",fontWeight:700,fontSize:14,color:r.pct>=70?"var(--success)":r.pct>=50?"var(--warn)":"var(--danger)",minWidth:40,textAlign:"right"}}>{r.pct}%</span></div>)}</div>}</div>;
+  return<div><div className="sec-title">📈 Study Progress</div><div className="sec-sub">Your academic overview</div><div className="grid3" style={{marginBottom:20}}>{[{lbl:"Avg Score",val:`${avg}%`,sub:`${results.length} results`,color:"var(--accent)"},{lbl:"Tasks Done",val:`${doneTasks}/${tasks.length}`,sub:"Completed",color:"var(--success)"},{lbl:"Skills",val:`${doneSkills}/${skillsDb.length}`,sub:"Competencies",color:"var(--accent2)"}].map(s=><div key={s.lbl} className="stat-card"><div className="stat-lbl">{s.lbl}</div><div className="stat-val" style={{color:s.color,fontSize:24}}>{s.val}</div><div className="stat-sub">{s.sub}</div></div>)}</div>{results.length>0&&<div className="card"><div style={{fontFamily:"var(--font-sans)",fontWeight:700,marginBottom:12}}>Recent Results</div>{results.slice(-5).reverse().map(r=><div key={r.id} style={{display:"flex",alignItems:"center",gap:10,padding:"7px 0",borderBottom:"1px solid var(--border)"}}><div style={{flex:1}}><div style={{fontWeight:600,fontSize:13}}>{r.subject}</div><div style={{fontSize:11,color:"var(--text3)"}}>{r.type} · {r.date}</div></div><div style={{flex:1,background:"var(--bg4)",borderRadius:20,height:6,overflow:"hidden"}}><div style={{height:"100%",borderRadius:20,width:`${r.pct}%`,background:r.pct>=70?"var(--success)":r.pct>=50?"var(--warn)":"var(--danger)"}} /></div><span style={{fontFamily:"var(--font-sans)",fontWeight:700,fontSize:14,color:r.pct>=70?"var(--success)":r.pct>=50?"var(--warn)":"var(--danger)",minWidth:40,textAlign:"right"}}>{r.pct}%</span></div>)}</div>}</div>;
 }
 
 // ════════════════════════════════════════════════════════════════════
@@ -1866,7 +1869,7 @@ export default function App() {
       <div className="auth-page" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}>
         <div style={{textAlign:"center",color:"var(--text3)"}}>
           <div style={{fontSize:40,marginBottom:10}}>🩺</div>
-          <div style={{fontFamily:"'DM Mono',monospace",fontSize:13}}>Syncing your data…</div>
+          <div style={{fontFamily:"var(--font-mono)",fontSize:13}}>Syncing your data…</div>
         </div>
       </div>
     </>
