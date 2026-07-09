@@ -1,0 +1,48 @@
+// Paste this into: Firebase Console → Build → Firestore Database → Rules → Publish
+// (Not auto-deployed by Vercel — must be pasted manually, same as your other projects.)
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isAdmin() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+    }
+
+    // User profiles. No passwords are stored here — Firebase Auth handles those.
+    match /users/{uid} {
+      allow read: if isSignedIn() && (request.auth.uid == uid || isAdmin());
+
+      // A user may create their own profile on registration, but can never
+      // set their own role to "admin" — only an existing admin can promote.
+      allow create: if isSignedIn() && request.auth.uid == uid
+                    && request.resource.data.role == "student";
+
+      allow update: if isSignedIn() && (
+                      (request.auth.uid == uid && request.resource.data.role == resource.data.role) ||
+                      isAdmin()
+                    );
+
+      allow delete: if isAdmin();
+    }
+
+    // Shared app content: classes, drugs, labs, past questions, flashcards,
+    // dictionary, skills, announcements, handouts. Any signed-in user can
+    // read; only admins can write.
+    match /sync/{key} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Per-user personal data: results, GPA courses, timetable, tasks,
+    // skills-done, messages. Only the owner can read/write their own data.
+    match /personal/{uid}/{document=**} {
+      allow read, write: if isSignedIn() && request.auth.uid == uid;
+    }
+  }
+}

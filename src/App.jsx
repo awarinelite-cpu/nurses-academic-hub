@@ -1,8 +1,13 @@
 import { useState, useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { auth, db } from "./firebase/config";
+import { registerUser, loginUser, logoutUser, fetchProfile } from "./firebase/authHelpers";
+import { pullAllFromCloud, pushKey, setSyncUid } from "./firebase/sync";
 
 // ─── STORAGE ────────────────────────────────────────────────────────
 const ls = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } };
-const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} pushKey(k, v); };
 
 // ─── DEFAULT DATA ───────────────────────────────────────────────────
 const DEFAULT_CLASSES = [
@@ -78,7 +83,6 @@ const initData = () => {
   if (!localStorage.getItem("nv-dict")) lsSet("nv-dict", DEFAULT_DICT);
   if (!localStorage.getItem("nv-skillsdb")) lsSet("nv-skillsdb", DEFAULT_SKILLS);
   if (!localStorage.getItem("nv-announcements")) lsSet("nv-announcements", DEFAULT_ANNOUNCEMENTS);
-  if (!localStorage.getItem("nv-users")) lsSet("nv-users", [{username:"admin",password:"admin123",role:"admin",class:"",joined:"System"}]);
 };
 
 // ─── STYLES ─────────────────────────────────────────────────────────
@@ -355,7 +359,8 @@ function AdminPanel({ toast, currentUser }) {
 
 // ── Admin Overview ───────────────────────────────────────────────────
 function AdminOverview({ toast }) {
-  const users = ls("nv-users", []);
+  const [users, setUsers] = useState([]);
+  useEffect(()=>{ getDocs(collection(db,"users")).then(snap=>setUsers(snap.docs.map(d=>({uid:d.id,...d.data()})))).catch(e=>console.warn(e)); },[]);
   const drugs = ls("nv-drugs", []);
   const labs = ls("nv-labs", []);
   const pq = ls("nv-pq", []);
@@ -432,8 +437,8 @@ function AdminOverview({ toast }) {
       <div className="card">
         <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:14}}>👥 Recent Users</div>
         {users.slice(-5).reverse().map(u=>(
-          <div key={u.username} className="user-row">
-            <div className="user-av">{u.username[0].toUpperCase()}</div>
+          <div key={u.uid} className="user-row">
+            <div className="user-av">{(u.username||"?")[0].toUpperCase()}</div>
             <div style={{flex:1}}>
               <div style={{fontWeight:600,fontSize:14}}>{u.username}</div>
               <div style={{fontSize:11,color:"var(--text3)",fontFamily:"'DM Mono',monospace"}}>{u.class||"No class"} · Joined {u.joined}</div>
@@ -448,72 +453,84 @@ function AdminOverview({ toast }) {
 
 // ── Admin Users ──────────────────────────────────────────────────────
 function AdminUsers({ toast }) {
-  const [users, setUsers] = useState(()=>ls("nv-users",[]));
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [edit, setEdit] = useState(null);
-  const [showAdd, setShowAdd] = useState(false);
-  const [form, setForm] = useState({username:"",password:"",role:"student",class:""});
+  const [form, setForm] = useState({role:"student",class:""});
   const classes = ls("nv-classes", DEFAULT_CLASSES);
   const [search, setSearch] = useState("");
 
-  const save = () => {
-    if (!form.username||!form.password) return toast("Username & password required","error");
-    if (!edit && users.find(u=>u.username===form.username)) return toast("Username already exists","error");
-    let u;
-    if (edit) { u = users.map(x=>x.username===edit?{...x,...form}:x); toast("User updated","success"); }
-    else { u = [...users,{...form,joined:new Date().toLocaleDateString()}]; toast("User added","success"); }
-    setUsers(u); lsSet("nv-users",u); setEdit(null); setShowAdd(false); setForm({username:"",password:"",role:"student",class:""});
+  const loadUsers = () => {
+    setLoading(true);
+    getDocs(collection(db,"users")).then(snap=>{
+      setUsers(snap.docs.map(d=>({ uid:d.id, ...d.data() })));
+      setLoading(false);
+    }).catch(e=>{ console.warn(e); setLoading(false); toast("Failed to load users","error"); });
+  };
+  useEffect(()=>{ loadUsers(); },[]);
+
+  const save = async () => {
+    try {
+      await updateDoc(doc(db,"users",edit), { role: form.role, class: form.class });
+      setUsers(u=>u.map(x=>x.uid===edit?{...x,role:form.role,class:form.class}:x));
+      toast("User updated","success"); setEdit(null);
+    } catch(e) { console.warn(e); toast("Update failed","error"); }
   };
 
-  const del = (username) => {
-    if (username==="admin") return toast("Cannot delete admin","error");
-    if (!confirm(`Delete user "${username}"?`)) return;
-    const u = users.filter(x=>x.username!==username); setUsers(u); lsSet("nv-users",u); toast("User deleted","success");
+  const del = async (u) => {
+    if (u.role==="admin") return toast("Cannot delete an admin profile here","error");
+    if (!confirm(`Remove "${u.username}"'s profile? This revokes their access but their sign-in account still exists — delete it in Firebase Console → Authentication if needed.`)) return;
+    try {
+      await deleteDoc(doc(db,"users",u.uid));
+      setUsers(x=>x.filter(y=>y.uid!==u.uid));
+      toast("Profile removed","success");
+    } catch(e) { console.warn(e); toast("Delete failed","error"); }
   };
 
-  const filtered = users.filter(u=>u.username.toLowerCase().includes(search.toLowerCase()));
+  const filtered = users.filter(u=>(u.username||"").toLowerCase().includes(search.toLowerCase()));
 
   return (
     <div>
       <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:16,flexWrap:"wrap",gap:10}}>
-        <div><div className="sec-title">👥 Users ({users.length})</div></div>
-        <button className="btn btn-purple" onClick={()=>{setShowAdd(true);setEdit(null);setForm({username:"",password:"",role:"student",class:""});}}>+ Add User</button>
+        <div><div className="sec-title">👥 Users ({users.length})</div><div className="sec-sub">Students register themselves from the sign-in screen — accounts live in Firebase Authentication.</div></div>
       </div>
       <div className="search-wrap"><span className="search-ico">🔍</span><input placeholder="Search users..." value={search} onChange={e=>setSearch(e.target.value)} /></div>
+      {loading ? <div style={{padding:30,textAlign:"center",color:"var(--text3)"}}>Loading…</div> : (
       <div className="card" style={{padding:0,overflow:"hidden"}}>
         <table className="tbl">
           <thead><tr><th>Username</th><th>Role</th><th>Class</th><th>Joined</th><th>Actions</th></tr></thead>
           <tbody>
             {filtered.map(u=>(
-              <tr key={u.username}>
-                <td><div style={{display:"flex",alignItems:"center",gap:9}}><div className="user-av" style={{width:30,height:30,fontSize:13}}>{u.username[0].toUpperCase()}</div><span style={{fontWeight:600}}>{u.username}</span></div></td>
+              <tr key={u.uid}>
+                <td><div style={{display:"flex",alignItems:"center",gap:9}}><div className="user-av" style={{width:30,height:30,fontSize:13}}>{(u.username||"?")[0].toUpperCase()}</div><span style={{fontWeight:600}}>{u.username}</span></div></td>
                 <td><span className={`tag ${u.role==="admin"?"tag-purple":"tag-accent"}`}>{u.role||"student"}</span></td>
                 <td style={{fontSize:12,color:"var(--text3)"}}>{u.class||"—"}</td>
                 <td style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace"}}>{u.joined||"—"}</td>
                 <td><div className="tbl-actions">
-                  <button className="btn btn-sm" onClick={()=>{setEdit(u.username);setForm({username:u.username,password:u.password,role:u.role||"student",class:u.class||""});setShowAdd(true);}}>✏️ Edit</button>
-                  <button className="btn btn-sm btn-danger" onClick={()=>del(u.username)}>🗑️ Del</button>
+                  <button className="btn btn-sm" onClick={()=>{setEdit(u.uid);setForm({role:u.role||"student",class:u.class||""});}}>✏️ Edit</button>
+                  <button className="btn btn-sm btn-danger" onClick={()=>del(u)}>🗑️ Del</button>
                 </div></td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      {showAdd&&(
-        <div className="modal-overlay" onClick={()=>setShowAdd(false)}>
+      )}
+      {edit&&(
+        <div className="modal-overlay" onClick={()=>setEdit(null)}>
           <div className="modal" onClick={e=>e.stopPropagation()}>
-            <div className="modal-head"><div className="modal-title">{edit?"Edit User":"Add User"}</div><button className="modal-close" onClick={()=>setShowAdd(false)}>✕</button></div>
-            <label className="lbl">Username</label><input className="inp" value={form.username} onChange={e=>setForm({...form,username:e.target.value})} disabled={!!edit} />
-            <label className="lbl">Password</label><input className="inp" type="text" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} />
+            <div className="modal-head"><div className="modal-title">Edit User</div><button className="modal-close" onClick={()=>setEdit(null)}>✕</button></div>
             <label className="lbl">Role</label>
             <select className="inp" value={form.role} onChange={e=>setForm({...form,role:e.target.value})}>
               <option value="student">Student</option>
+              <option value="admin">Admin</option>
             </select>
             <label className="lbl">Class</label>
             <select className="inp" value={form.class} onChange={e=>setForm({...form,class:e.target.value})}>
               <option value="">None</option>
               {classes.map(c=><option key={c.id} value={c.id}>{c.label}</option>)}
             </select>
-            <div style={{display:"flex",gap:8}}><button className="btn btn-purple" style={{flex:1}} onClick={save}>Save</button><button className="btn" onClick={()=>setShowAdd(false)}>Cancel</button></div>
+            <div style={{display:"flex",gap:8}}><button className="btn btn-purple" style={{flex:1}} onClick={save}>Save</button><button className="btn" onClick={()=>setEdit(null)}>Cancel</button></div>
           </div>
         </div>
       )}
@@ -583,7 +600,7 @@ function AdminClasses({ toast }) {
           <div style={{fontFamily:"'Syne',sans-serif",fontWeight:700,marginBottom:8}}>📋 Paste & Auto-Import Classes</div>
           <div style={{fontSize:12,color:"var(--text3)",fontFamily:"'DM Mono',monospace",marginBottom:8}}>Format: <b style={{color:"var(--accent)"}}>LABEL | Description | Course1, Course2, Course3</b><br/>Or just paste class names, one per line.</div>
           <textarea className="paste-box" placeholder={"BNSc 5 | Bachelor of Nursing Science Year Five | Advanced Research, Clinical Leadership, Thesis\nND THREE | National Diploma Year Three | Paediatrics, Community Health\nHND THREE | Higher National Diploma Year Three | Health Policy, Nursing Management"} value={pasteText} onChange={e=>setPasteText(e.target.value)} />
-          <div style={{display:"flex",gap:8",marginBottom:parsed.length?10:0}}>
+          <div style={{display:"flex",gap:8,marginBottom:parsed.length?10:0}}>
             <button className="btn btn-accent" onClick={parsePaste}>🔍 Parse</button>
             {parsed.length>0&&<button className="btn btn-success" onClick={importParsed}>✅ Import {parsed.length} Classes</button>}
             <button className="btn" onClick={()=>{setPasteMode(false);setParsed([]);setPasteText("");}}>Cancel</button>
@@ -1443,6 +1460,8 @@ function Dashboard({ user, onNavigate }) {
   const handouts = ls("nv-handouts",[]);
   const classes = ls("nv-classes", DEFAULT_CLASSES);
   const announcements = ls("nv-announcements",[]).filter(a=>a.pinned);
+  const [userCount, setUserCount] = useState(null);
+  useEffect(()=>{ getDocs(collection(db,"users")).then(snap=>setUserCount(snap.size)).catch(()=>setUserCount(null)); },[]);
   return (
     <div>
       {announcements.length>0&&announcements.map(a=>(
@@ -1458,7 +1477,7 @@ function Dashboard({ user, onNavigate }) {
           {lbl:"COURSES",val:classes.reduce((s,c)=>s+c.courses.length,0),sub:"Across all classes"},
           {lbl:"HANDOUTS",val:handouts.length,sub:"Total uploaded"},
           {lbl:"RESULTS",val:ls("nv-results",[]).length,sub:"Test & exam scores"},
-          {lbl:"USERS",val:ls("nv-users",[]).length,sub:"Registered accounts"},
+          {lbl:"USERS",val:userCount===null?"…":userCount,sub:"Registered accounts"},
         ].map((s,i)=>(
           <div key={s.lbl} className="stat-card" style={{animationDelay:`${i*.06}s`}}>
             <div className="stat-lbl">{s.lbl}</div>
@@ -1700,7 +1719,8 @@ function StudyProgress() {
 // MAIN APP
 // ════════════════════════════════════════════════════════════════════
 export default function App() {
-  useEffect(() => { initData(); }, []);
+  const [booted, setBooted] = useState(false);
+  const [authBusy, setAuthBusy] = useState(false);
 
   const [page, setPage] = useState("auth");
   const [authTab, setAuthTab] = useState("signin");
@@ -1712,31 +1732,76 @@ export default function App() {
   const [toasts, setToasts] = useState([]); const [currentUser, setCurrentUser] = useState(""); const [isAdmin, setIsAdmin] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
 
-  useEffect(() => { document.body.className = darkMode ? "" : "light"; }, [darkMode]);
-
   const toast = (msg, type="info") => {
     const id = Date.now() + Math.random();
     setToasts(t => [...t, { id, msg, type }]);
     setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3200);
   };
 
-  const login = () => {
+  // ── boot: seed local defaults, then hydrate from cloud, then react to
+  //    Firebase Auth session changes for the rest of the app's life ──
+  useEffect(() => {
+    initData();
+    const unsub = onAuthStateChanged(auth, async (fbUser) => {
+      try {
+        if (fbUser) {
+          setSyncUid(fbUser.uid);
+          await pullAllFromCloud(fbUser.uid, { lsSetRaw: lsSet, lsRaw: ls });
+          const profile = await fetchProfile(fbUser.uid);
+          if (profile) {
+            setCurrentUser(profile.username);
+            setIsAdmin(profile.role === "admin");
+            setPage("app");
+          }
+        } else {
+          setSyncUid(null);
+          await pullAllFromCloud(null, { lsSetRaw: lsSet, lsRaw: ls });
+          setCurrentUser(""); setIsAdmin(false); setPage("auth");
+        }
+      } catch (e) {
+        console.warn("[boot] cloud sync failed, continuing with local data", e);
+      } finally {
+        setBooted(true);
+      }
+    });
+    return () => unsub();
+  }, []);
+
+  useEffect(() => { document.body.className = darkMode ? "" : "light"; }, [darkMode]);
+
+  const login = async () => {
     if (!username || !password) return toast("Fill in all fields", "error");
-    const users = ls("nv-users", []);
-    const user = users.find(u => u.username === username && u.password === password);
-    if (!user) return toast("Invalid credentials", "error");
-    if (loginType === "admin" && user.role !== "admin") return toast("Not an admin account", "error");
-    setCurrentUser(username); setIsAdmin(user.role === "admin"); setPage("app");
-    toast(`Welcome back, ${username}! 👋`, "success");
+    setAuthBusy(true);
+    try {
+      const profile = await loginUser({ username, password });
+      if (loginType === "admin" && profile.role !== "admin") {
+        await logoutUser();
+        toast("Not an admin account", "error");
+        return;
+      }
+      toast(`Welcome back, ${profile.username}! 👋`, "success");
+      // onAuthStateChanged picks up currentUser/isAdmin/page automatically
+    } catch (e) {
+      console.warn(e);
+      toast(e.code === "auth/invalid-credential" || e.code === "auth/wrong-password" || e.code === "auth/user-not-found" ? "Invalid credentials" : "Sign in failed — check your connection", "error");
+    } finally {
+      setAuthBusy(false);
+    }
   };
 
-  const register = () => {
+  const register = async () => {
     if (!regUser || !regPw) return toast("Fill in all fields", "error");
-    const users = ls("nv-users", []);
-    if (users.find(u => u.username === regUser)) return toast("Username taken", "error");
-    const newUsers = [...users, { username: regUser, password: regPw, role: "student", class: regClass, joined: new Date().toLocaleDateString() }];
-    lsSet("nv-users", newUsers); setCurrentUser(regUser); setIsAdmin(false); setPage("app");
-    toast(`Welcome, ${regUser}! 🎉`, "success");
+    if (regPw.length < 6) return toast("Password must be at least 6 characters", "error");
+    setAuthBusy(true);
+    try {
+      const profile = await registerUser({ username: regUser, password: regPw, className: regClass });
+      toast(`Welcome, ${profile.username}! 🎉`, "success");
+    } catch (e) {
+      console.warn(e);
+      toast(e.code === "auth/email-already-in-use" ? "Username taken" : "Registration failed — check your connection", "error");
+    } finally {
+      setAuthBusy(false);
+    }
   };
 
   const navigate = (section, cls = null) => {
@@ -1790,6 +1855,18 @@ export default function App() {
     { icon:"📈", label:"Study Progress", key:"progress" },
   ];
 
+  if (!booted) return (
+    <>
+      <style>{CSS}</style>
+      <div className="auth-page" style={{display:"flex",alignItems:"center",justifyContent:"center",minHeight:"100vh"}}>
+        <div style={{textAlign:"center",color:"var(--text3)"}}>
+          <div style={{fontSize:40,marginBottom:10}}>🩺</div>
+          <div style={{fontFamily:"'DM Mono',monospace",fontSize:13}}>Syncing your data…</div>
+        </div>
+      </div>
+    </>
+  );
+
   if (page === "auth") return (
     <>
       <style>{CSS}</style>
@@ -1822,8 +1899,8 @@ export default function App() {
                   <input className="inp" type={showPw?"text":"password"} placeholder="••••••••" value={password} onChange={e=>setPassword(e.target.value)} onKeyDown={e=>e.key==="Enter"&&login()} />
                   <button className="inp-eye" onClick={()=>setShowPw(p=>!p)}>{showPw?"🙈":"👁"}</button>
                 </div>
-                <button className={`btn-primary${loginType==="admin"?" btn-admin":""}`} onClick={login}>
-                  {loginType==="admin"?"🛡️ Admin Sign In →":"Sign In →"}
+                <button className={`btn-primary${loginType==="admin"?" btn-admin":""}`} onClick={login} disabled={authBusy}>
+                  {authBusy?"Signing in…":(loginType==="admin"?"🛡️ Admin Sign In →":"Sign In →")}
                 </button>
                 <div className="auth-switch">No account? <span onClick={()=>setAuthTab("register")}>Register here</span></div>
               </>
@@ -1838,7 +1915,7 @@ export default function App() {
                   <option value="">Select class...</option>
                   {classes.map(c=><option key={c.id} value={c.id}>{c.label} — {c.desc}</option>)}
                 </select>
-                <button className="btn-primary" onClick={register}>Create Account →</button>
+                <button className="btn-primary" onClick={register} disabled={authBusy}>{authBusy?"Creating account…":"Create Account →"}</button>
                 <div className="auth-switch">Have account? <span onClick={()=>setAuthTab("signin")}>Sign in</span></div>
               </>
             )}
@@ -1893,7 +1970,7 @@ export default function App() {
           ))}
 
           <div style={{padding:"16px 8px 0"}}>
-            <div className="nav-item" style={{color:"var(--danger)"}} onClick={()=>{setPage("auth");setCurrentUser("");setIsAdmin(false);}}>
+            <div className="nav-item" style={{color:"var(--danger)"}} onClick={()=>logoutUser().catch(e=>console.warn(e))}>
               <span className="nav-icon">🚪</span>Sign Out
             </div>
           </div>
